@@ -1,0 +1,20 @@
+package com.junl.apps.service.yanghu;
+
+
+import com.junl.apps.form.YangHuForm;
+import com.junl.frame.core.common.page.PageInfo;
+/**
+ * 
+ * @author dfj
+ * @date 2016年8月18日下午7:59:53 
+ * @description
+ *
+ */
+public interface IYangHu {
+	/**
+	 * 获取油污列表
+	 * @return
+	 * @throws Exception
+	 */
+	public PageInfo queryWXYangHuListPage(YangHuForm form) throws Exception;
+}

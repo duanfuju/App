@@ -1,0 +1,28 @@
+package com.junl.apps.service.choujian;
+
+
+import com.junl.apps.form.ChouJianForm;
+import com.junl.apps.model.ChouJianModel;
+import com.junl.frame.core.common.page.PageInfo;
+/**
+ * 
+ * @author dfj
+ * @date 2016年8月19日下午2:54:30 
+ * @description
+ *
+ */
+public interface IChouJian {
+	/**
+	 * 新增
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 */
+	public int insertChouJian(ChouJianModel model) throws Exception;
+	/**
+	 * 获取抽检列表
+	 * @return
+	 * @throws Exception
+	 */
+	public PageInfo queryChouJianListPage(ChouJianForm form) throws Exception;
+}

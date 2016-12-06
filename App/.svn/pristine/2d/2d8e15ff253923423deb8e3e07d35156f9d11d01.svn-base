@@ -1,0 +1,9 @@
+
+#/-----------------------------------------------------//
+# 192.168.1.22 公司服务器
+#/-----------------------------------------------------//
+#/------------- sqlserver数据库连接配置 -------------//
+jdbc.driver=net.sourceforge.jtds.jdbc.Driver
+jdbc.url=jdbc:jtds:sqlserver://192.168.1.4:1433/dms
+jdbc.username=sa
+jdbc.password=junlian123

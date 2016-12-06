@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  	
+<mapper namespace="com.junl.apps.mapper.WXFzhlMapper">
+	
+	<select id="queryWXFzhlListPage"  resultType="Map"  parameterType="Map" >
+		SELECT
+				*
+		FROM
+				DMS_WX_fzhlWeiXiu fzhl
+		where fzhl.createUserId=#{createUserId}
+			<if test="weiXiuRenYuan != null and weiXiuRenYuan != ''">
+				AND fzhl.weiXiuRenYuan like '%'+#{weiXiuRenYuan }+'%'
+			</if>
+	</select>
+	
+	
+	<select id="queryFzhlTable"  resultType="Map"  parameterType="Map" >
+		SELECT * FROM DMS_WX_fzhlWeiXiu_item_relate where weiXiuId =#{ids}
+	</select>
+	
+	<!--  循环查询各个维修记录表								计量
+	首先根据报验的主键ids到报验外键表获取任务（任务表的外键表）的ids
+	根据获取到的任务（任务表的外键表）的ids获取维修表的记录数 -->
+	<select id="queryForEach" resultType="Map"  parameterType="Map" >
+		select 
+			wx.state wxState,taskrelate.ids taskrelateIds, wx.meteringMoney meteringMoney,task.taskNo taskNo,wx.ids ids, wx.startZHK startZHK,wx.startZHM startZHM,wx.endZHK endZHK,wx.endZHM endZHM,wx.luXian luXian,wx.wzType wzType,wx.wzName wzName,wx.meteringNum meteringNum,xc.binghaiOrQueXianType binghaiOrQueXianType 
+		from 
+			DMS_WX_fzhlWeiXiu wx,DMS_RW_task_info_relate taskrelate,DMS_XC_xunChaInfo xc,DMS_RW_task task
+		where 
+			xc.ids=taskrelate.xunChaInfoId 
+			 and wx.taskInfoRelate=taskrelate.ids
+			 and taskrelate.taskId=task.ids
+			 and isnull(wx.state,0)!=2
+			 and wx.taskInfoRelate IN (select taskId from DMS_BY_weiXiuBaoYanF f  where f.byIds=#{byIds})
+	</select>	
+	
+	
+	<!--  循环查询各个维修记录表							通过（抽检）
+	首先根据报验的主键ids到报验外键表获取任务（任务表的外键表）的ids
+	根据获取到的任务（任务表的外键表）的ids获取维修表的记录数 -->
+	<select id="queryForEachAccept" resultType="Map"  parameterType="Map" >
+		select 
+			wx.state wxState,taskrelate.ids taskrelateIds, wx.meteringMoney meteringMoney,task.taskNo taskNo,wx.ids ids, wx.startZHK startZHK,wx.startZHM startZHM,wx.endZHK endZHK,wx.endZHM endZHM,wx.luXian luXian,wx.wzType wzType,wx.wzName wzName,wx.meteringNum meteringNum,xc.binghaiOrQueXianType binghaiOrQueXianType 
+		from 
+			DMS_WX_fzhlWeiXiu wx,DMS_RW_task_info_relate taskrelate,DMS_XC_xunChaInfo xc,DMS_RW_task task
+		where 
+			xc.ids=taskrelate.xunChaInfoId 
+			 and wx.taskInfoRelate=taskrelate.ids
+			 and taskrelate.taskId=task.ids
+			 and isnull(wx.state,0)=3
+			 and wx.taskInfoRelate IN (select taskId from DMS_BY_weiXiuBaoYanF f  where f.byIds=#{byIds})
+	</select>
+		<!--  循环查询各个维修记录表							未通过（抽检）
+	首先根据报验的主键ids到报验外键表获取任务（任务表的外键表）的ids
+	根据获取到的任务（任务表的外键表）的ids获取维修表的记录数 -->
+	<select id="queryForEachNoAccept" resultType="Map"  parameterType="Map" >
+		select 
+			wx.state wxState,taskrelate.ids taskrelateIds, wx.meteringMoney meteringMoney,task.taskNo taskNo,wx.ids ids, wx.startZHK startZHK,wx.startZHM startZHM,wx.endZHK endZHK,wx.endZHM endZHM,wx.luXian luXian,wx.wzType wzType,wx.wzName wzName,wx.meteringNum meteringNum,xc.binghaiOrQueXianType binghaiOrQueXianType 
+		from 
+			DMS_WX_fzhlWeiXiu wx,DMS_RW_task_info_relate taskrelate,DMS_XC_xunChaInfo xc,DMS_RW_task task
+		where 
+			xc.ids=taskrelate.xunChaInfoId 
+			 and wx.taskInfoRelate=taskrelate.ids
+			 and taskrelate.taskId=task.ids
+			 and isnull(wx.state,0)=2
+			 and wx.taskInfoRelate IN (select taskId from DMS_BY_weiXiuBaoYanF f  where f.byIds=#{byIds})
+	</select>
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<insert id="insertFzhlBuJian" parameterType="Map" >
+		INSERT INTO DMS_WX_fzhlWeiXiu_item_relate
+           (ids
+           ,weiXiuBuJian
+           ,jiaoZheng
+           ,gengHuan
+           ,huiShou
+           ,weiXiuId)
+     VALUES
+     		(#{ids}
+           ,#{weiXiuBuJian}
+           ,#{jiaoZheng}
+           ,#{gengHuan}
+           ,#{huiShou}
+           ,#{weiXiuId})
+	</insert>
+	
+	<delete id="deleteFzhlBuJian" parameterType="Map">
+		DELETE
+		FROM
+			DMS_WX_fzhlWeiXiu_item_relate
+		WHERE
+			weiXiuId = #{weiXiuId}
+	</delete>
+	<update id="updateFzhl"  parameterType="FzhlForm">
+		UPDATE
+			DMS_WX_fzhlWeiXiu
+		set 
+			weatherState=#{weatherState},
+			qiWen=#{qiWen},
+			startZHK=#{startZHK},
+			startZHM=#{startZHM},
+			endZHK=#{endZHK},
+			endZHM=#{endZHM},
+			weiXiuStartTime=#{weiXiuStartTime},
+			weiXiuEndTime=#{weiXiuEndTime},
+			shiGongJiXie=#{shiGongJiXie},
+			weiXiuRenYuan=#{weiXiuRenYuan},
+			anQuanYuan=#{anQuanYuan},
+			fuZeRen=#{fuZeRen},
+			pingJia=#{pingJia},
+			ztXianXing=#{ztXianXing},
+			remark=#{remark},
+			imgs=#{imgs},
+			taskInfoRelate=#{taskInfoRelate},
+			weiXiuChangDu=#{weiXiuChangDu},
+			juTiWeiZhi=#{juTiWeiZhi},
+			sunHuaiCauseType=#{sunHuaiCauseType},
+			sunHuaiCause=#{sunHuaiCause},
+			shiGuTime=#{shiGuTime},
+			wjsxbCause=#{wjsxbCause},
+			sunHuaiMiaoShu=#{sunHuaiMiaoShu},
+			qiTaWeiXiuNum=#{qiTaWeiXiuNum},
+			luXian=#{luXian},
+			wzType=#{wzType},
+			wzName=#{wzName},
+			wzMiaoShu=#{wzMiaoShu},
+			luBingType=#{luBingType}
+		WHERE
+			ids = #{ids}
+	</update>
+	
+	
+	<insert id="insertFzhl" parameterType="Map" >
+		INSERT INTO DMS_WX_fzhlWeiXiu
+           (ids,weatherState,qiWen,startZHK,startZHM,endZHK,endZHM,weiXiuStartTime
+           ,weiXiuEndTime,shiGongJiXie,weiXiuRenYuan,anQuanYuan,fuZeRen,pingJia,ztXianXing
+           ,remark,imgs,taskInfoRelate,weiXiuChangDu,juTiWeiZhi,sunHuaiCauseType,sunHuaiCause
+           ,shiGuTime,wjsxbCause,sunHuaiMiaoShu,qiTaWeiXiuNum,createUserId,state,luXian,wzType
+           ,wzName,wzMiaoShu,createTime,luBingType)
+     VALUES
+           (#{ids},#{weatherState},#{qiWen},#{startZHK},#{startZHM},#{endZHK},#{endZHM},#{weiXiuStartTime}
+           ,#{weiXiuEndTime},#{shiGongJiXie},#{weiXiuRenYuan},#{anQuanYuan},#{fuZeRen},#{pingJia},#{ztXianXing}
+           ,#{remark},#{imgs},#{taskInfoRelate},#{weiXiuChangDu},#{juTiWeiZhi},#{sunHuaiCauseType},#{sunHuaiCause}
+           ,#{shiGuTime},#{wjsxbCause},#{sunHuaiMiaoShu},#{qiTaWeiXiuNum},#{createUserId},#{state},#{luXian},#{wzType}
+           ,#{wzName},#{wzMiaoShu},#{createTime},#{luBingType})
+	</insert>
+	
+</mapper>

@@ -1,0 +1,90 @@
+package com.junl.apps.service.imageupload;
+
+import java.awt.Font;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.util.Map;
+
+import javax.imageio.ImageIO;
+
+import net.coobird.thumbnailator.Thumbnails;
+import net.coobird.thumbnailator.geometry.Positions;
+
+import org.apache.log4j.Logger;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
+
+import com.junl.apps.common.FileUtils;
+import com.junl.apps.common.ImageUtils;
+import com.junl.frame.tools.UUIDGenerator;
+
+@Service
+public class UploadImgImpl implements IUploadImg {
+	
+	Logger log = Logger.getLogger(this.getClass());
+
+	@Override
+	public String uploadImage(CommonsMultipartFile image,String waterMatkStr)
+			throws Exception {
+		String imgServerPath = "";
+		String imgServerXDPath = "";
+		// 是否存在图片
+		if(!image.isEmpty()) {
+			
+			String suffix = image.getOriginalFilename()
+					.substring(image.getOriginalFilename().lastIndexOf("."));
+			
+			// 重改图片名称并上传至服务器文件夹中
+			String fileUuid = UUIDGenerator.generate();
+			String fileName = fileUuid + suffix;
+			if(imgServerPath.equals(""))
+			{
+				//相对路径
+				imgServerXDPath = "uploadImage/membertemp";
+				//获取当前服务器路径
+				imgServerPath = FileUtils.getProjectServerRootPath()+imgServerXDPath;
+			}
+			//讲文件写入指定位置
+			FileUtils.copyInputStreamToFile(imgServerPath,fileName, image.getInputStream());
+			String filePath = imgServerPath+"/"+fileName;
+			String fileMinName = fileUuid+"-min"+suffix;
+			// 验证上传的图片是否存在
+			File check = new File(filePath);
+			if(check.exists())
+			{
+				// 相同目录下生成缩略图  
+				Thumbnails.of(filePath)   
+		        .scale(0.05f)  
+		        .toFile(imgServerPath+"/"+fileMinName);  
+				
+				//watermark(位置，水印图，透明度)  
+				String waterMarkPath = FileUtils.getProjectServerRootPath()+"images\\watermark\\watermark.png";
+				//根据文字生成水印图
+				Font font  = new Font("宋体", Font.BOLD, 30);
+				ImageUtils.generratorImageByStr(waterMatkStr, waterMarkPath,font);
+				
+				//判断水印图是否存在
+				File waterMark = new File(waterMarkPath);
+				if(waterMark.exists())
+				{
+					
+					//获取原图的大小  添加水印
+					BufferedImage bImage = ImageIO.read(check);
+					Thumbnails.of(filePath)
+					.size(bImage.getWidth(), bImage.getHeight())
+			        .watermark(Positions.BOTTOM_RIGHT, ImageIO.read(waterMark), 0.5f)   
+			        .outputQuality(0.8f)   
+			        .toFile(filePath);
+				}
+				return imgServerXDPath+"/"+fileName;
+			}
+			else
+			{
+				log.error("文件上传失败！");
+			}
+		}
+		return "";
+	}
+
+
+}

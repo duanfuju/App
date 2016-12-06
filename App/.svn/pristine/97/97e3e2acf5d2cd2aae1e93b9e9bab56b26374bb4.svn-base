@@ -1,0 +1,15 @@
+package com.junl.apps.service.peizhi;
+
+import java.util.List;
+
+import com.junl.apps.model.LuxianPZModel;
+
+public interface ILuxianPZ {
+
+	/**
+	 * 查询所有配置信息
+	 * @return
+	 * @throws Exception
+	 */
+	public List<LuxianPZModel> findAllLuxianPz() throws Exception;
+}

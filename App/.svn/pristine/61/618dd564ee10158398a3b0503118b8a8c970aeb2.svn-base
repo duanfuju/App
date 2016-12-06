@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  	
+<mapper namespace="com.junl.apps.mapper.WXFzhlMapper">
+	
+	<select id="queryWXFzhlListPage"  resultType="Map"  parameterType="Map" >
+		SELECT
+				*
+		FROM
+				DMS_WX_fzhlWeiXiu fzhl
+		<trim prefix="WHERE" prefixOverrides="AND">
+			<if test="weiXiuRenYuan != null and weiXiuRenYuan != ''">
+				AND fzhl.weiXiuRenYuan like '%'+#{weiXiuRenYuan }+'%'
+			</if>
+		</trim>
+	</select>
+	
+</mapper>

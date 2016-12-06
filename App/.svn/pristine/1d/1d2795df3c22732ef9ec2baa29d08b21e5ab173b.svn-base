@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  	
+<mapper namespace="com.junl.apps.mapper.XunChaTouMapper">
+	
+	<select id="queryXunChaTouListPage"  resultType="Map"  parameterType="Map" >
+		select 
+				xct.ids,
+				xct.guanLiDanWei,
+				xct.xunChaStartTime,
+				xct.xunChaEndTime,
+				xct.weatherState,
+				xct.xunChaType,
+				xct.xunChaFangXiang1,
+				xct.xunChaStartZHK1,
+				xct.xunChaStartZHM1,
+				xct.xunChaEndZHK1,
+				xct.xunChaEndZHM1,
+				xct.xunChaFangXiang2,
+				xct.xunChaStartZHK2,
+				xct.xunChaStartZHM2,
+				xct.xunChaEndZHK2,
+				xct.xunChaEndZHM2,
+				xct.xunChaLiCheng,
+				xct.remark,
+				xct.createUserId,
+				xct.createTime,
+				xct.state,
+				xct.luXianId
+				
+			FROM
+				DMS_XC_xunChaTou xct
+		<trim prefix="WHERE" prefixOverrides="AND">
+			<if test="xunChaType != null and xunChaType != ''">
+				AND xct.xunChaType = #{xunChaType }
+			</if>
+			<if test="sdate != null and sdate != '' ">
+				AND xct.xunChaStartTime between #{sdate } 
+							<if test="edate != null and edate != '' ">
+								and  #{edate } 
+							</if>
+							<if test="edate == null and edate == '' ">
+								and  getdate()
+							</if>
+				
+			</if>
+			<if test="createUserId != null and createUserId != ''">
+				AND xct.createUserId = #{createUserId }
+			</if>
+		</trim>
+	</select>
+	
+	<select id="queryByIds"  resultType="Map"  parameterType="Map" >
+			SELECT
+				*
+			FROM
+				DMS_XC_xunChaTou where ids=#{ids}
+	</select>
+	
+	
+	
+</mapper>

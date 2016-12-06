@@ -1,0 +1,31 @@
+package com.junl.apps.service.fzhl;
+
+
+import java.util.List;
+import java.util.Map;
+
+import com.junl.apps.form.FzhlForm;
+import com.junl.frame.core.common.page.PageInfo;
+/**
+ * 
+ * @author dfj
+ * @date 2016年8月18日下午9:05:32 
+ * @description
+ *
+ */
+public interface IFzhl {
+	/**
+	 * 获取防撞护栏列表
+	 * @return
+	 * @throws Exception
+	 */
+	public PageInfo queryWXFzhlListPage(FzhlForm form) throws Exception;
+	
+	/**
+	 * 根据防撞护栏的ids获取防撞护栏维修部件的数据
+	 * @param map
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Map<String, Object>> queryFzhlTable(FzhlForm form) throws Exception;
+}

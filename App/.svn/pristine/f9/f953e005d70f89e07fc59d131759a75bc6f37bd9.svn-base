@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  	
+<mapper namespace="com.junl.apps.mapper.WXLuMianMapper">
+	
+	<select id="queryWXLuMianListPage"  resultType="Map"  parameterType="Map" >
+			SELECT
+				*
+			FROM
+				DMS_WX_luMianBingHaiWeiXiu way
+		<trim prefix="WHERE" prefixOverrides="AND">
+			<if test="weiXiuRenYuan != null and weiXiuRenYuan != ''">
+				AND way.weiXiuRenYuan like '%'+#{weiXiuRenYuan }+'%'
+			</if>
+			<if test="luXian != null and luXian != ''">
+				AND way.luXian like '%'+#{luXian }+'%'
+			</if>
+		</trim>
+	</select>
+	
+	
+	
+	<select id="queryWayTable"  resultType="Map"  parameterType="Map" >
+			SELECT * FROM ( SELECT
+		        * 
+		    FROM
+		        DMS_WX_luMianBingHaiWeiXiu_ceng_relate c 
+		    WHERE
+		        c.weiXiuId = #{ids}) o ORDER BY o.cengType
+	</select>
+	
+		<!--  循环查询各个维修记录表
+	首先根据报验的主键ids到报验外键表获取任务（任务表的外键表）的ids
+	根据获取到的任务（任务表的外键表）的ids获取维修表的记录数 -->
+	<select id="queryForEach" resultType="Map"  parameterType="Map" >
+		select 
+			wx.state wxState,taskrelate.ids taskrelateIds, wx.meteringMoney meteringMoney,task.taskNo taskNo,wx.ids ids, wx.startZHK startZHK,wx.startZHM startZHM,wx.endZHK endZHK,wx.endZHM endZHM,wx.luXian luXian,wx.wzType wzType,wx.wzName wzName,wx.meteringNum meteringNum,xc.binghaiOrQueXianType binghaiOrQueXianType 
+		from 
+			DMS_WX_luMianBingHaiWeiXiu wx,DMS_RW_task_info_relate taskrelate,DMS_XC_xunChaInfo xc,DMS_RW_task task
+		where 
+			xc.ids=taskrelate.xunChaInfoId 
+			 and wx.taskInfoRelate=taskrelate.ids
+			 and taskrelate.taskId=task.ids
+			 and isnull(wx.state,0)!=2 
+			 and wx.taskInfoRelate IN (select taskId from DMS_BY_weiXiuBaoYanF f  where f.byIds=#{byIds})
+	</select>	
+	
+	
+	
+	
+	
+	
+	
+	
+</mapper>

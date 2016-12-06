@@ -1,0 +1,51 @@
+package com.junl.apps.mapper;
+import java.util.List;
+import java.util.Map;
+
+import com.junl.apps.model.JiLiangModel;
+import com.junl.frame.core.BaseMapper;
+/**
+ * 
+* @ClassName: JiLiangMapper
+* @Description: TODO(这里用一句话描述这个类的作用)
+* @author dfj
+* @date 2016年8月26日 下午5:21:04
+*
+ */
+public interface JiLiangMapper extends BaseMapper<Object>{
+	
+	
+	
+	
+	
+	/**
+	 * 确认已计量
+	 * @param params
+	 * @return
+	 * @throws Exception
+	 */
+	public int updateJiLiang(Map<String, Object> params) throws Exception;
+	
+	
+	
+	/**
+	 * 计量新增
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 */
+	public int insertJiLiang(JiLiangModel model) throws Exception;
+	/**
+	 * 获取计量列表
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Map<String, Object>> queryJiLiangListPage(Map<String, Object> map) throws Exception;
+	/**
+	 * 根据报验的ids获取维修的数量（中间计量中的计量页面上的维修数量）
+	 * @param map
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Map<String, Object>> queryWeiXiuNumByBaoYanIds(Map<String, Object> map) throws Exception;
+}

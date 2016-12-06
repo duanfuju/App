@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  	
+<mapper namespace="com.junl.apps.mapper.ChouJianMapper">
+	
+	<select id="queryChouJianListPage"  resultType="Map"  parameterType="Map" >
+		SELECT
+				byan.ids byanIds,
+				byan.byNo byNo,
+				jl.ids jlIds,
+				jl.returnNum returnNum,
+				jl.state state,
+				jl.confirmTime confirmTime,
+				cj.state cjstate,
+				cj.samplingTime samplingTime,
+				cj.ids cjIds
+		FROM
+				DMS_CJ_chouJian cj
+				LEFT JOIN DMS_JL_jiLing jl ON cj.jiLingIds=jl.ids
+				LEFT JOIN DMS_BY_weiXiuBaoYanP byan ON jl.byIds=byan.ids
+		<trim prefix="WHERE" prefixOverrides="AND">
+			<if test="_state != null and _state != ''">
+				AND  cj.state >  #{_state }
+			</if>
+			<if test="state != null and state != ''">
+				AND  cj.state = #{state }
+			</if>
+		</trim>
+	</select>
+	
+</mapper>

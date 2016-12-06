@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  	
+<mapper namespace="com.junl.apps.mapper.PeizhiMapper">
+	
+	
+	
+	
+	
+	<!-- 根据选择信息表中的ids(DMS_PZ_bingHaiIndex:wxmkId)获取病害类型 -->
+	<select id="queryBingHaiIndexByWxmkId" parameterType="Map" resultType="Map">
+		SELECT
+				*
+			FROM
+				DMS_PZ_bingHaiIndex
+			WHERE
+				wxmkId = #{ids}
+			ORDER BY
+				sort	
+	</select>	
+	<!-- 根据类型查询选择信息表 -->
+	<select id="queryChooseInfoByType" parameterType="Map" resultType="Map">
+		SELECT
+				*
+			FROM
+				DMS_PZ_chooseInfo
+			WHERE
+				type =  #{type }
+			ORDER BY
+				sort	
+	</select>	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<!-- 查询所有路线配置  -->
+	<select id="query" resultType="LuxianPZModel" parameterType="Map">
+		SELECT * FROM DMS_PZ_luXian
+	</select>
+	
+	<!-- 查询位置 -->
+	<select id="queryWeizhi" parameterType="Map" resultType="Map">
+		SELECT
+			pzwz.wzType,
+			pzci.name
+		FROM 
+			DMS_PZ_weiZhi pzwz
+		LEFT JOIN
+			DMS_PZ_chooseInfo pzci
+		ON
+			pzci.ids = pzwz.wzType
+		<trim prefix="WHERE" prefixOverrides="AND">
+			<if test="luxianId != null and luxianId != ''">
+				AND pzwz.luXianId = #{luxianId }
+			</if>
+		</trim>
+		GROUP BY
+	        pzwz.wzType,
+	        pzci.name,
+	        pzci.sort 
+    	ORDER BY pzci.sort
+	</select>
+	
+
+	<!-- 查询维修单位 -->
+	<select id="queryByCenter" resultType="Map" >
+		select ids,name FROM DMS_PZ_byCenter 
+	</select>
+	<!-- 查询管理单位 -->
+	<select id="queryCompany" resultType="Map" >
+		select ids,name FROM DMS_PZ_company 
+	</select>
+
+	<!-- 根据位置类型id和路线id获取方向、互通、收费站、服务区 -->
+	<select id="queryPoint" parameterType="Map" resultType="Map">
+		SELECT
+			wz.wzName,
+        	wz.ZHK,
+        	wz.ZHM 
+		FROM
+			DMS_PZ_weiZhi wz
+		WHERE
+			wz.luXianId = #{luxianId } 
+		AND
+			wz.wzType = #{weizhiId }
+		GROUP BY
+			wz.wzName,
+        	wz.ZHK,
+        	wz.ZHM
+	</select>
+	
+	
+	<!-- 根据位置类型id和路线id和方向、互通、收费站、服务区 获取位置描述-->
+	<select id="queryWzMiaoShu" parameterType="Map" resultType="Map">
+		SELECT
+			wz.wzName,
+        	wz.ZHK,
+        	wz.ZHM 
+		FROM
+			DMS_PZ_weiZhi wz
+		WHERE
+			wz.luXianId = #{luxianId } 
+		AND
+			wz.wzType = #{weizhiId }
+		And
+			wz.wzName=#{wzName }
+		GROUP BY
+			wz.wzName,
+        	wz.ZHK,
+        	wz.ZHM
+	</select>
+	
+	
+	
+	<!-- 查询所有的防撞护栏部件 -->
+	<select id="queryFzhlBuJian" parameterType="Map" resultType="Map">
+		select * from DMS_PZ_fzhlBuJian order by sort
+	</select>	
+	
+	
+	
+	<!-- 根据用户的ids获取所配置的养护路段的ids -->
+	<select id="queryYangHuLuDuanIdByUserId" parameterType="Map" resultType="Map">
+		SELECT top 1 y.yangHuLuDuanId yangHuLuDuanId  FROM pt_userinfo y 
+									INNER JOIN  pt_user x  ON x.userinfoids=y.ids 
+											and x.ids = #{userIds } 
+	</select>	
+	<!-- 根据养护路段的ids获取路线的ids -->
+	<select id="queryLuXianIdByYangHuLuDuanId" parameterType="Map" resultType="Map">
+		SELECT luXianId from DMS_PZ_yhLuDuan x
+									where	 x.ids = #{yangHuLuDuanIds}
+	</select>	
+	<!-- 根据路线的ids获取路线的信息 -->
+	<select id="queryLuXianByluXianIds" parameterType="Map" resultType="Map">
+		select ids,luXianNO,luXianName,startZHK,startZHM,endZHK,endZHM from DMS_PZ_luXian where ids = #{luXianIds}
+	</select>
+	
+</mapper>

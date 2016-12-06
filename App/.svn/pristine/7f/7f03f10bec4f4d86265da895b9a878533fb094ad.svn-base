@@ -1,0 +1,15 @@
+package com.junl.apps.mapper;
+import java.util.List;
+import java.util.Map;
+
+import com.junl.apps.model.XunChaInfoXCModel;
+import com.junl.frame.core.BaseMapper;
+
+public interface XunChaInfoMapper extends BaseMapper<XunChaInfoXCModel>{
+	/**
+	 * 获取巡查信息列表
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Map<String, Object>> queryXunChaInfoListPage(Map<String, Object> map) throws Exception;
+}

@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  	
+<mapper namespace="com.junl.apps.mapper.BaoYanMapper">
+	
+	
+	
+	
+	
+	<!-- 根据报验的ids修改状态 -->
+	<update id="updateBaoYanState"  parameterType="Map">
+		UPDATE
+			DMS_BY_weiXiuBaoYanP
+		set 
+				state=#{state}
+		WHERE
+			ids = #{ids}
+	</update>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<!-- 修改 -->
+	<update id="updateBaoYan"  parameterType="BaoYanModel">
+		UPDATE
+			DMS_BY_weiXiuBaoYanP
+		set 
+				byu=#{byu},
+				remark=#{remark},
+				imgs=#{imgs},
+				baoYanPeople=#{baoYanPeople},
+				baoYanTime=#{baoYanTime},
+				shenHePeople=#{shenHePeople},
+				shenHeTime=#{shenHeTime},
+				yanShouPeople=#{yanShouPeople},
+				yanShouTime=#{yanShouTime}
+		WHERE
+			ids = #{ids}
+	</update>
+	
+	<!-- 新增 -->
+	 <insert id="insertBaoYan" parameterType="BaoYanModel">
+        INSERT INTO
+        	DMS_BY_weiXiuBaoYanP
+        values(
+	        	#{ids},
+				#{byu},
+				#{byPre},
+				#{byNum},
+				getdate(),
+				#{remark},
+				#{imgs},
+				#{baoYanPeople},
+				#{baoYanTime},
+				#{shenHePeople},
+				#{shenHeTime},
+				#{yanShouPeople},
+				#{yanShouTime},
+				0,
+				#{byNo},
+				0
+        )
+    </insert>
+
+	
+	
+	
+	
+	
+	
+	<insert id="insertBaoYanRelate" parameterType="BaoYanRelateModel" >
+		INSERT INTO DMS_BY_weiXiuBaoYanF
+    	VALUES
+     		(
+	     		#{ids},
+				#{byIds},
+				#{taskId},
+				0
+			)
+	</insert>
+	
+	<delete id="deleteBaoYanRelate" parameterType="Map">
+		DELETE
+		FROM
+			DMS_BY_weiXiuBaoYanF
+		WHERE
+			byIds = #{byIds}
+	</delete>
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<!-- 获取当前需要新增的任务单编号-->
+	<select id="queryTaskNoInThisMonth"  resultType="Map"  parameterType="Map" >
+		select top 1 byNum+1 byNum from DMS_BY_weiXiuBaoYanP r where datediff(month,r.createTime,getdate())=0 ORDER BY byNum DESC
+	</select>
+	
+	<!-- 根据报验主键获取任务的数据 -->
+	<select id="queryTaskBaoYanIds"  resultType="Map"  parameterType="Map" >
+		select 
+			t.DiseaseNumber DiseaseNumber, 
+			t.fuZeRen fuZeRen, 
+			t.taskNo taskNo, 
+			tir.taskWeiXiuNum taskWeiXiuNum,
+			tir.state tirState, 
+			tir.ids tirIds, 
+			x.xunChaStartZHK xunChaStartZHK, 
+			x.xunChaStartZHM xunChaStartZHM, 
+			x.xunChaEndZHK xunChaEndZHK, 
+			x.xunChaEndZHM xunChaEndZHM, 
+			x.xunChaTime xunChaTime, 
+			x.binghaiOrQueXianType binghaiOrQueXianType,  
+			x.yuGuGongChengLiang yuGuGongChengLiang, 
+			x.yuGuGongChengLiangDw yuGuGongChengLiangDw,  
+			tir.state tirState, 
+			tir.overTime overTime, 
+			x.wzName wzName 
+		from DMS_RW_task_info_relate tir
+			left join DMS_XC_xunChaInfo x on x.ids=tir.xunChaInfoId
+			left join DMS_RW_task t  on t.ids=tir.taskId
+			LEFT JOIN DMS_PZ_chooseInfo ci on ci.ids=x.wxmkId
+		where 	
+			tir.ids in (select taskId from DMS_BY_weiXiuBaoYanF w  where w.byIds=#{byIds})
+	</select>
+	
+	
+	<select id="queryBaoYanListPage"  resultType="Map"  parameterType="Map" >
+		select 
+			*
+		from
+						DMS_BY_weiXiuBaoYanP  baoyan
+		where 
+			baoyan.ids=baoyanRelate.byIds
+			<if test="sdate != null and sdate != '' ">
+				AND baoyan.createTime between #{sdate } 
+						<if test="edate != null and edate != '' ">
+							and  #{edate } 
+						</if>
+						<if test="edate == null and edate == '' ">
+							and  getdate()
+						</if>
+			</if>
+	</select>
+	
+</mapper>

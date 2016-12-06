@@ -1,0 +1,103 @@
+package com.junl.apps.common;
+
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontFormatException;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Transparency;
+import java.awt.font.FontRenderContext;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.imageio.ImageIO;
+
+public class ImageUtils {
+	
+	
+	/**
+	 *  根据文字生成透明图片水印
+	 * @param waterMarkStr
+	 * @throws IOException 
+	 */
+	public static void generratorImageByStr(String waterMarkStr,String imagePath,Font font) throws IOException
+	{
+		//根据字符串的字体   获取相应的宽高
+		Map<String,Integer> map = getWidthAndHeightByStrAndFont(waterMarkStr,font);
+		//两边的边距 10+10
+		int ImageWidth = (map.get("width")!=null?map.get("width"):0)+20;
+		//上下的边距 本身默认 上+下=15
+		int ImageHeight = (map.get("height")!=null?map.get("height"):0);
+		
+		//生成图片
+		BufferedImage image = new BufferedImage(ImageWidth, ImageHeight, BufferedImage.TYPE_INT_RGB);
+		//得到画笔
+		Graphics2D graphics = image.createGraphics();
+		//-----------------------------------先设置样式在  画图
+		//设置透明背景
+		image = graphics.getDeviceConfiguration().createCompatibleImage(ImageWidth, ImageHeight, Transparency.TRANSLUCENT);
+		graphics.dispose();
+		//----------------------------
+		//重新获取  图片背景为透明的画笔
+		graphics = image.createGraphics();
+		//设置字体
+		graphics.setFont(font);
+		//设置画笔颜色
+		graphics.setColor(Color.white);
+		//设置画笔的粗细
+		graphics.setStroke(new BasicStroke(1f));
+		
+		//在什么位置写入waterMarkStr { x = 左边的坐标    y = 下面的坐标   }  左下角的坐标
+		graphics.drawString(waterMarkStr, 10, (ImageHeight-15/2));
+		graphics.dispose();
+		//-----------------------------------
+		ImageIO.write(image, "png", new File(imagePath));
+	}
+	
+	
+	/**
+	 * 
+	 * 根据字符串和字体得到宽高    高默认上下共有15间距
+	 * 
+	 * @param waterMarkStr
+	 * @param font
+	 * @return key: width  height
+	 */
+	public static Map<String,Integer> getWidthAndHeightByStrAndFont(String waterMarkStr,Font font)
+	{
+		@SuppressWarnings("restriction")
+		FontMetrics fm = sun.font.FontDesignMetrics.getMetrics(font);
+		int width = fm.stringWidth(waterMarkStr);
+		int height = fm.getHeight();
+		Map<String,Integer> returnMap = new HashMap<String, Integer>();
+		returnMap.put("width", width);
+		returnMap.put("height", height);
+		return returnMap;
+	}
+	
+	
+	/**
+	 * 	自定义字体
+	 * @param fontPath  字体路径  项目的相对路径
+	 * @return
+	 * @throws FontFormatException
+	 * @throws IOException
+	 */
+	public static Font customFont(String fontPath) throws FontFormatException, IOException
+	{
+			//自定义字体的路径
+		  File file = new File(fontPath);
+		  FileInputStream aixing = new FileInputStream(file);
+		  Font font = Font.createFont(Font.TRUETYPE_FONT, aixing);
+		  Font dynamicFontPt = font.deriveFont(30f);//设置字体大小
+		  return dynamicFontPt;
+	}
+
+}

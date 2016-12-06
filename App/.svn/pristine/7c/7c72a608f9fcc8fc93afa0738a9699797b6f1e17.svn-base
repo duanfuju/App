@@ -1,0 +1,23 @@
+package com.junl.apps.mapper;
+import java.util.List;
+import java.util.Map;
+
+import com.junl.frame.core.BaseMapper;
+
+public interface WXLieFengMapper extends BaseMapper<Object>{
+	/**
+	 * 获取路面列表
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Map<String, Object>> queryWXLieFengListPage(Map<String, Object> map) throws Exception;
+	/**
+	 * 循环查询各个维修记录表
+	 * 首先根据报验的主键ids到报验外键表获取任务（任务表的外键表）的ids
+	 * 根据获取到的任务（任务表的外键表）的ids获取维修表的记录数 
+	 * @param map
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Map<String, Object>> queryForEach(Map<String, Object> map) throws Exception;
+}

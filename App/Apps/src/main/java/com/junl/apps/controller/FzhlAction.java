@@ -1,0 +1,163 @@
+package com.junl.apps.controller;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.junl.apps.common.ApiMessage;
+import com.junl.apps.form.FzhlForm;
+import com.junl.apps.service.fzhl.IFzhl;
+import com.junl.apps.service.role.IRole;
+import com.junl.frame.core.common.page.PageInfo;
+import com.junl.frame.tools.string.StringUtils;
+
+@Controller
+@RequestMapping("/fzhl")
+public class FzhlAction {
+	
+	@Autowired
+	private IFzhl fzhlServices;
+	
+	
+	@Autowired
+	private IRole roleServices;
+	
+	
+	
+	
+	
+	
+	/**增加
+	 * 		防撞护栏所有属性及防撞护栏部件关联表
+	 * 请求地址：http://127.0.0.1:8006/Apps/fzhl/insertFzhl.do
+	 * 参数：
+	 *        ids				主键				(修改时必填)
+	 *        weatherState		天气状况			必填
+	 *        qiWen				气温				必填
+	 *        startZHK			开始桩号千米位		必填
+	 *        startZHM			开始桩号米位		必填
+	 *        endZHK			结束桩号千米位		必填
+	 *        endZHM			结束桩号米位		必填
+	 *        weiXiuStartTime	维修开始时间		必填
+	 *        weiXiuEndTime		维修结束时间		必填
+	 *        shiGongJiXie		施工机械			必填
+	 *        weiXiuRenYuan		维修人员			必填
+	 *        anQuanYuan		现场专职安全员		必填
+	 *        fuZeRen			现场施工负责人		必填
+	 *        pingJia			质量评价			必填
+	 *        ztXianXing		整体线形			必填
+	 *        remark			备注				
+	 *        imgs				图片
+	 *        taskInfoRelate	任务和巡查信息关联id	必填
+	 *        weiXiuChangDu		维修长度			必填
+	 *        juTiWeiZhi		具体位置			必填
+	 *        sunHuaiCauseType	损坏原因类型		必填
+	 *        sunHuaiCause		损坏原因			必填
+	 *        shiGuTime			事故时间			必填
+	 *        wjsxbCause		未及时修补原因		必填
+	 *        sunHuaiMiaoShu	损坏现状描述		必填
+	 *        qiTaWeiXiuNum		其他相关项目维修数量	必填
+	 *        createUserId		创建人id			必填
+	 *        luXian			路线				必填
+	 *        wzType			位置类型			必填
+	 *        wzName			位置名称			必填
+	 *        wzMiaoShu			位置描述			必填
+	 *        luBingType		病害类型			必填
+	 *        list：
+	 *			weiXiuBuJian	维修部件			必填
+	 *			jiaoZheng		整理矫正数量及型号	必填
+	 *			gengHuan		更换数量及型号		必填
+	 *			huiShou			回收数量及型号		必填
+	 *		返回：json
+	 * @param form
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="insertFzhl")
+	public @ResponseBody Map<String, Object> insertFzhl(
+			@RequestBody FzhlForm form) throws Exception {
+		int res=-1;
+		Map<String, Object> map=new HashMap<>();
+		try {
+			int zhs1=form.getStartZHK()*1000+form.getStartZHM();
+			int zhe1=form.getEndZHK()*1000+form.getEndZHM();
+			//判断桩号是否符合范围
+			if (roleServices.judgeZHScope(roleServices.getZHFanWeibyUserId(form.getCreateUserId()),zhs1,zhe1)) {
+				if (StringUtils.isEmpty(form.getIds())) {
+					res= fzhlServices.insertFzhl(form);
+				}else{
+					res=fzhlServices.updateFzhl(form);
+				}
+				map.put("state", res);
+			}else{
+				map.put("state", -1);
+				map.put("msg", "输入的桩号不在负责范围内");
+			}
+			return ApiMessage.builder(true, map);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ApiMessage.builder(false);
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/**默认分页列表
+	 * 请求地址：http://127.0.0.1:8006/Apps/fzhl/queryWXFzhlListPage.do
+	 *		参数：
+	 *			pageNo			当前页码				必填
+	 *			limit			限制查询的记录数			必填
+	 *			createUserId	当前用户				必填
+	 *			weiXiuRenYuan	维修人员
+	 *		返回：json
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="queryWXFzhlListPage")
+	public @ResponseBody Map<String, Object> queryWXFzhlListPage(
+			@RequestBody FzhlForm form) throws Exception {
+		
+		try {
+			PageInfo pageInfos = fzhlServices.queryWXFzhlListPage(form);
+			return ApiMessage.builder(true, pageInfos);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ApiMessage.builder(false);
+		}
+	}
+	/**根据防撞护栏的ids获取防撞护栏维修部件的数据
+	 * 请求地址：http://127.0.0.1:8006/Apps/fzhl/queryFzhlTable.do
+	 * 参数：
+	 *			ids			防撞护栏的维修编号				必填
+	 *			
+	 *		返回：json
+	 * @param form
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="queryFzhlTable")
+	public @ResponseBody Map<String, Object> queryFzhlTable(
+			@RequestBody FzhlForm form) throws Exception {
+		
+		try {
+			List<Map<String, Object>> list = fzhlServices.queryFzhlTable(form);
+			return ApiMessage.builder(true, list);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ApiMessage.builder(false);
+		}
+	}
+	
+}

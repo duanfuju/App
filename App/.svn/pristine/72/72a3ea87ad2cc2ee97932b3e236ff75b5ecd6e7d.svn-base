@@ -1,0 +1,15 @@
+package com.junl.apps.service.xunchainfo;
+
+
+import com.junl.apps.form.XunChaInfoForm;
+import com.junl.apps.form.XunChaTouForm;
+import com.junl.frame.core.common.page.PageInfo;
+
+public interface IXunChaInfo {
+	/**
+	 * 获取巡查信息列表
+	 * @return
+	 * @throws Exception
+	 */
+	public PageInfo queryXunChaInfoListPage(XunChaInfoForm form) throws Exception;
+}

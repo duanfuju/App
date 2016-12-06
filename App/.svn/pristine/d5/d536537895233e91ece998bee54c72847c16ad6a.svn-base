@@ -1,0 +1,42 @@
+package com.junl.apps.controller;
+
+
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.junl.apps.service.app.IApp;
+
+@Controller
+@RequestMapping("/app")
+public class AppAction {
+	@Autowired
+	private IApp appServices;
+	
+	/**
+	 * 请求地址：http://127.0.0.1:8006/Apps/app/insertApp.do
+	 *		参数：
+	 *		返回：json
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="insertApp")
+	public String insertApp(
+			@RequestParam("version") String version, 
+			@RequestParam("file_upload") MultipartFile file,
+			ModelMap model) throws Exception {
+		try {
+			 int res=appServices.insertApp(version,file);
+			 if (res==1) {
+				 model.put("msg", "上传文件成功");
+			}
+		} catch (Exception e) {
+			model.put("msg", "上传文件失败");
+		}
+		return "uploadFile";
+	}
+}

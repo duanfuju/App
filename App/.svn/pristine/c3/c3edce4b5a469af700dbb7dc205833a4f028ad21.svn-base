@@ -1,0 +1,38 @@
+package com.junl.apps.service.lumian;
+
+
+import java.util.List;
+import java.util.Map;
+
+import com.junl.apps.form.LuMianForm;
+import com.junl.frame.core.common.page.PageInfo;
+/**
+ * 
+ * @author dfj
+ * @date 2016年8月18日下午8:44:22 
+ * @description
+ *
+ */
+public interface ILuMian {
+	/**
+	 * 获取路面列表
+	 * @return
+	 * @throws Exception
+	 */
+	public PageInfo queryWXLuMianListPage(LuMianForm form) throws Exception;
+	
+	
+	
+	public List<Map<String, Object>> queryWayTable(LuMianForm form) throws Exception;
+	
+	
+	/**
+	 * 循环查询各个维修记录表
+	 * 首先根据报验的主键ids到报验外键表获取任务（任务表的外键表）的ids
+	 * 根据获取到的任务（任务表的外键表）的ids获取维修表的记录数 
+	 * @param map
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Map<String, Object>> queryForEach(Map<String, Object> map) throws Exception;
+}

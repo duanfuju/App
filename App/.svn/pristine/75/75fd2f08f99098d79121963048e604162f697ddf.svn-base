@@ -1,0 +1,24 @@
+package com.junl.apps.mapper;
+import java.util.List;
+import java.util.Map;
+
+import com.junl.apps.model.ChouJianModel;
+import com.junl.frame.core.BaseMapper;
+
+public interface ChouJianMapper extends BaseMapper<Object>{
+	
+	
+	/**
+	 * 新增
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 */
+	public int insertChouJian(ChouJianModel model) throws Exception;
+	/**
+	 * 获取抽检列表
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Map<String, Object>> queryChouJianListPage(Map<String, Object> map) throws Exception;
+}

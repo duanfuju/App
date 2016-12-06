@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  	
+<mapper namespace="com.junl.apps.mapper.RoleMapper">
+
+	
+	<!-- 	根据用户ids获取养护路段的ids -->
+	<select id="queryYangHuLuDuanId"  resultType="Map"  parameterType="Map" >
+		select yangHuLuDuanId from pt_user u,pt_userinfo ui where u.userinfoids=ui.ids	and u.ids=#{ids}
+	</select>
+	
+	
+	<!-- 根据养护路段查询桩号 -->
+	<select id="queryStartZHAndEndZH"  resultType="Map"  parameterType="Map" >
+		select (startZHK*1000+startZHM) startZH,(endZHK*1000+endZHM) endZH 
+		from DMS_PZ_yhLuDuan 
+		where ids in
+			<foreach item="ids" index="index" collection="ids" open="(" separator="," close=")">
+                   #{ids}
+        	</foreach>
+						
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+</mapper>

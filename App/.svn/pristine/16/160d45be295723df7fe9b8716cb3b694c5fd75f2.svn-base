@@ -1,0 +1,49 @@
+package com.junl.apps.service.choujian;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.junl.apps.common.PageInfoSetCondition;
+import com.junl.apps.form.ChouJianForm;
+import com.junl.apps.mapper.ChouJianMapper;
+import com.junl.frame.core.common.page.PageInfo;
+
+
+/**
+ * 
+ * @author dfj
+ * @date 2016年8月19日下午2:07:57 
+ * @description
+ *
+ */
+@Service
+public class ChouJianImpl implements IChouJian{
+
+	
+	
+	@Autowired
+	private ChouJianMapper mapper;
+	
+	
+	public PageInfo queryChouJianListPage(ChouJianForm form) throws Exception {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("_state", form.get_state());
+		params.put("state", form.getState());
+		//设置分页参数
+		PageInfoSetCondition.SetCondition(form.getPageInfo(), "confirmTime", "desc");
+		params.put("page", form.getPageInfo());
+		List<Map<String, Object>> list = mapper.queryChouJianListPage(params);
+		form.getPageInfo().setResults(list);
+		return form.getPageInfo();
+	}
+
+
+
+	
+	
+
+}

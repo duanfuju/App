@@ -1,0 +1,8 @@
+package com.junl.apps.mapper;
+
+import com.junl.apps.model.LuxianPZModel;
+import com.junl.frame.core.BaseMapper;
+
+public interface LuxianPZMapper extends BaseMapper<LuxianPZModel> {
+
+}

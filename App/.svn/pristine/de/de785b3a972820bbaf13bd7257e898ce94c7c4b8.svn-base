@@ -1,0 +1,20 @@
+package com.junl.apps.service.liefeng;
+
+
+import com.junl.apps.form.LieFengForm;
+import com.junl.frame.core.common.page.PageInfo;
+/**
+ * 
+ * @author dfj
+ * @date 2016年8月18日下午8:54:37 
+ * @description
+ *
+ */
+public interface ILieFeng {
+	/**
+	 * 获取裂缝列表
+	 * @return
+	 * @throws Exception
+	 */
+	public PageInfo queryWXLieFengListPage(LieFengForm form) throws Exception;
+}

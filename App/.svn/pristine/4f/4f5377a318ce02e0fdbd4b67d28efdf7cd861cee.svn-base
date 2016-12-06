@@ -1,0 +1,62 @@
+package com.junl.apps.service.xunchatou;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.junl.apps.common.PageInfoSetCondition;
+import com.junl.apps.form.XunChaTouForm;
+import com.junl.apps.mapper.XunChaTouMapper;
+import com.junl.apps.model.XunChaTouXCModel;
+import com.junl.frame.core.common.page.PageInfo;
+
+
+
+@Service
+public class XunChaTouImpl implements IXunChaTou{
+
+	
+	
+	@Autowired
+	private XunChaTouMapper mapper;
+	
+	/*
+	 * (non-Javadoc)
+	 * @see com.junl.apps.service.xunchatou.IXunChaTou#queryXunChaTouListPage(java.util.Map)
+	 */
+	public PageInfo queryXunChaTouListPage(XunChaTouForm form) throws Exception {
+		
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("xunChaType", form.getXunChaType());
+		params.put("sdate", form.getSdate());
+		params.put("edate", form.getEdate());
+		params.put("createUserId", form.getCreateUserId());
+		//设置分页参数
+		PageInfoSetCondition.SetCondition(form.getPageInfo(), "xunChaStartTime", "desc");
+		params.put("page", form.getPageInfo());
+		List<Map<String, Object>> list = mapper.queryXunChaTouListPage(params);
+		form.getPageInfo().setResults(list);
+		
+		return form.getPageInfo();
+	}
+	/*
+	 * (non-Javadoc)
+	 * @see com.junl.apps.service.xunchatou.IXunChaTou#queryByIds(java.lang.String)
+	 */
+	public Map<String, Object> queryByIds(String ids) throws Exception {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("ids", ids);
+		return mapper.queryByIds(params);
+	}
+	@Override
+	public int insertXunCha(XunChaTouXCModel form) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	
+	
+
+}

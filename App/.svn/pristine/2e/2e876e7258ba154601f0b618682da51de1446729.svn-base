@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+	PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+	
+	<properties>
+		<property name="dialect" value="sqlserver" />
+	</properties>
+	
+	<settings>
+		<setting name="lazyLoadingEnabled" value="false" />
+	</settings>
+	
+	<!-- 别名定义区 -->
+	<typeAliases>
+		<!-- duanfj -->
+		<typeAlias alias="UserModel" type="com.junl.apps.model.UserModel" />
+		<typeAlias alias="LuxianPZModel" type="com.junl.apps.model.LuxianPZModel" />
+		<typeAlias alias="WeizhiPZModel" type="com.junl.apps.model.WeizhiPZModel" />
+		<typeAlias alias="ByCenterPZModel" type="com.junl.apps.model.ByCenterPZModel" />
+		<typeAlias alias="XunChaTouXCModel" type="com.junl.apps.model.XunChaTouXCModel" />
+		<typeAlias alias="XunChaInfoXCModel" type="com.junl.apps.model.XunChaInfoXCModel" />
+		<typeAlias alias="XunChaInfoRelateModel" type="com.junl.apps.model.XunChaInfoRelateModel" />
+		<typeAlias alias="WXYouWuModel" type="com.junl.apps.model.WXYouWuModel" />
+		<typeAlias alias="WXYangHuModel" type="com.junl.apps.model.WXYangHuModel" />
+		<typeAlias alias="WXLuMianRelateModel" type="com.junl.apps.model.WXLuMianRelateModel" />
+		<typeAlias alias="WXLuMianModel" type="com.junl.apps.model.WXLuMianModel" />
+		<typeAlias alias="WXLieFengModel" type="com.junl.apps.model.WXLieFengModel" />
+		<typeAlias alias="WXJiaoTongModel" type="com.junl.apps.model.WXJiaoTongModel" />
+		<!-- 防撞护栏的 -->
+		<typeAlias alias="FzhlForm" type="com.junl.apps.form.FzhlForm" />
+		<typeAlias alias="FzhlRelateForm" type="com.junl.apps.form.FzhlRelateForm" />
+		<!-- 报验的 -->
+		<typeAlias alias="BaoYanRelateModel" type="com.junl.apps.model.BaoYanRelateModel" />
+		<typeAlias alias="BaoYanModel" type="com.junl.apps.model.BaoYanModel" />
+		<!-- 计量的 -->
+		<typeAlias alias="JiLiangModel" type="com.junl.apps.model.JiLiangModel" />
+		<typeAlias alias="JiLiangTuiHuiModel" type="com.junl.apps.model.JiLiangTuiHuiModel" />
+		<typeAlias alias="JiLiangXiMuModel" type="com.junl.apps.model.JiLiangXiMuModel" />
+		<!-- 抽检 -->
+		<typeAlias alias="ChouJianModel" type="com.junl.apps.model.ChouJianModel" />
+	</typeAliases>
+	
+	<!-- 分页插件sqlID拦截处理 -->
+	<plugins>
+		<plugin interceptor="com.junl.frame.core.common.page.PagePlugin">
+			<property name="dialect" value="sqlserver" />
+			<property name="pageSqlId" value=".*ListPage.*" />
+		</plugin>
+	</plugins>
+	
+	<!-- 引入SQL配置文件 -->
+	<mappers>
+		<!-- duanfj -->
+		<mapper resource="com/junl/apps/orm/UserMapper.xml"/>
+		<mapper resource="com/junl/apps/orm/PeizhiMapper.xml"/>
+		<mapper resource="com/junl/apps/orm/XunChaTouMapper.xml"/>
+		<mapper resource="com/junl/apps/orm/XunChaInfoMapper.xml"/>
+		<mapper resource="com/junl/apps/orm/RWTaskMapper.xml"/>
+	 	<mapper resource="com/junl/apps/orm/WXYouWuMapper.xml"/>
+		<mapper resource="com/junl/apps/orm/WXYangHuMapper.xml"/>
+		<mapper resource="com/junl/apps/orm/WXLuMianMapper.xml"/>
+		<mapper resource="com/junl/apps/orm/WXLieFengMapper.xml"/>
+		<mapper resource="com/junl/apps/orm/WXJiaoTongMapper.xml"/>
+		<mapper resource="com/junl/apps/orm/WXFzhlMapper.xml"/> 
+		<mapper resource="com/junl/apps/orm/BaoYanMapper.xml"/>
+		<mapper resource="com/junl/apps/orm/JiLiangMapper.xml"/>
+		<mapper resource="com/junl/apps/orm/ChouJianMapper.xml"/>
+		<mapper resource="com/junl/apps/orm/AppMapper.xml"/>
+		<mapper resource="com/junl/apps/orm/YanShouXinXiMapper.xml"/>
+		<mapper resource="com/junl/apps/orm/LatAndLonMapper.xml"/>
+		<mapper resource="com/junl/apps/orm/RoleMapper.xml"/>
+	</mappers>
+		
+	
+		
+</configuration>

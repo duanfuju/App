@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  	
+<mapper namespace="com.junl.apps.mapper.RWTaskMapper">
+	
+	
+	
+	
+	
+	
+	
+	<update id="updateTask"  parameterType="BaoYanModel">
+		UPDATE
+			DMS_RW_task_info_relate
+		set 
+			state=#{state}
+		WHERE
+			ids = #{ids}
+	</update>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<!-- 根据子任务的ids获取任务的信息 -->
+	<select id="queryRWByTaskInfoRelate"  resultType="Map"  parameterType="Map" >
+		SELECT 
+			* 
+		FROM  
+			DMS_RW_task task,DMS_RW_task_info_relate taskrelate
+		where 
+			task.ids=taskrelate.taskId 
+			and taskrelate.ids=#{taskInfoRelate}
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<select id="queryRWTaskListPage"  resultType="Map"  parameterType="Map" >
+		select 
+				t.ids tids,
+				t.taskNo taskNo,
+				t.createUserId createUserId,
+				t.createTime tcreateTime,
+				t.yuJiTaskEndTime yuJiTaskEndTime,
+				t.remark tremark,
+				t.taskState taskState,
+				t.fuZeRen fuZeRen,
+				t.paiDanDate paiDanDate,
+				x.ids xids,
+				x.xunChaStartZHK xunChaStartZHK,
+				x.xunChaStartZHM xunChaStartZHM,
+				x.xunChaEndZHK xunChaEndZHK,
+				x.xunChaEndZHM xunChaEndZHM,
+				x.xiuBuBiaoZhi xiuBuBiaoZhi,
+				x.wxmkId wxmkId,
+				x.binghaiOrQueXianType binghaiOrQueXianType,
+				x.binghaiOrQueXianMiaoShu binghaiOrQueXianMiaoShu,
+				x.level level,
+				x.yuGuGongChengLiang yuGuGongChengLiang,
+				x.yuGuGongChengLiangDw yuGuGongChengLiangDw,
+				x.xunChaTime xunChaTime,
+				x.remark xremark,
+				x.imgs imgs,
+				x.xunChaUserId xunChaUserId,
+				x.xunChaTouId xunChaTouId,
+				x.luXian luXian,
+				x.wzType wzType,
+				x.wzName wzName,
+				x.wzMiaoShu wzMiaoShu,
+				x.createTime xcreateTime,
+				x.state state,
+				tir.ids tirIds,
+				tir.taskWeiXiuNum taskWeiXiuNum,
+				tir.state tirState,
+				tir.overTime overTime,
+				ci.name wxmkName,
+				t.byu as byu,
+				t.DiseaseNumber DiseaseNumber
+				
+			from DMS_RW_task_info_relate tir
+					left join DMS_XC_xunChaInfo x on x.ids=tir.xunChaInfoId
+					left join DMS_RW_task t  on t.ids=tir.taskId
+					LEFT JOIN DMS_PZ_chooseInfo ci on ci.ids=x.wxmkId
+					
+					
+		<trim prefix="WHERE" prefixOverrides="AND">
+			<if test="sdate != null and sdate != '' ">
+				AND t.paiDanDate between #{sdate } 
+							<if test="edate != null and edate != '' ">
+								and  #{edate } 
+							</if>
+							<if test="edate == null and edate == '' ">
+								and  getdate()
+							</if>
+				
+			</if>
+			<if test="fuZeRen != null and fuZeRen != ''">
+				AND  t.fuZeRen like '%'+#{fuZeRen }+'%'
+			</if>
+			<if test="wxmkId != null and wxmkId != ''">
+				AND  x.wxmkId = #{wxmkId }
+			</if>
+			<if test="taskRelateState != null and taskRelateState != ''">
+				AND tir.state = #{taskRelateState }
+			</if>
+			<if test="notInTaskIds != null and notInTaskIds != ''">
+				AND tir.Ids = #{notInTaskIds }
+			</if>
+			<if test="oversdate != null and oversdate != '' ">
+				AND tir.overTime  between #{oversdate } 
+						<if test="overedate != null and overedate != '' ">
+							and  #{overedate } 
+						</if>
+						<if test="overedate == null and overedate == '' ">
+							and  getdate()
+						</if>
+			
+			</if>
+		
+		</trim>
+	</select>
+	
+	
+	
+	
+	
+</mapper>

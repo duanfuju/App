@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  	
+<mapper namespace="com.junl.apps.mapper.JiLiangMapper">
+	
+	<select id="queryJiLiangListPage"  resultType="Map"  parameterType="Map" >
+		SELECT
+				byan.ids byanIds,
+				byan.byNo byNo,
+				jl.ids jlIds,
+				jl.returnNum returnNum,
+				jl.state state,
+				jl.confirmTime confirmTime
+		FROM
+				DMS_JL_jiLing jl 
+				LEFT JOIN DMS_BY_weiXiuBaoYanP byan ON jl.byIds=byan.ids
+		<trim prefix="WHERE" prefixOverrides="AND">
+			<if test="state != null and state != ''">
+				AND  jl.state = #{state }
+			</if>
+			<if test="byNo != null and byNo != ''">
+				AND  byan.byNo = #{byNo }
+			</if>
+		</trim>
+	</select>
+	
+</mapper>

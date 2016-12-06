@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  	
+<mapper namespace="com.junl.apps.mapper.XunChaTouMapper">
+
+
+
+
+
+
+
+
+<update id="updateXunChaTouState"  parameterType="Map">
+		UPDATE
+			DMS_XC_xunChaTou
+		set 
+			state=#{state}
+				
+		WHERE
+			ids = #{ids}
+	</update>
+
+
+
+
+
+
+
+
+
+
+
+
+	<update id="updateXunChaTou"  parameterType="Map">
+		UPDATE
+			DMS_XC_xunChaTou
+		set 
+			guanLiDanWei=#{guanLiDanWei},
+			xunChaStartTime=#{xunChaStartTime},
+			xunChaEndTime=#{xunChaEndTime},
+			weatherState=#{weatherState},
+			xunChaType=#{xunChaType},
+			xunChaFangXiang1=#{xunChaFangXiang1},
+			xunChaStartZHK1=#{xunChaStartZHK1},
+			xunChaStartZHM1=#{xunChaStartZHM1},
+			xunChaEndZHK1=#{xunChaEndZHK1},
+			xunChaEndZHM1=#{xunChaEndZHM1},
+			xunChaFangXiang2=#{xunChaFangXiang2},
+			xunChaStartZHK2=#{xunChaStartZHK2},
+			xunChaStartZHM2=#{xunChaStartZHM2},
+			xunChaEndZHK2=#{xunChaEndZHK2},
+			xunChaEndZHM2=#{xunChaEndZHM2},
+			xunChaLiCheng=#{xunChaLiCheng},
+			luXianId=#{luXianId},
+			remark=#{remark}
+				
+		WHERE
+			ids = #{ids}
+	</update>
+
+
+
+
+
+
+
+
+	 <insert id="insertXunChaTou" parameterType="XunChaTouXCModel">
+        INSERT INTO
+        	DMS_XC_xunChaTou
+        values(
+        	#{ids},
+			#{guanLiDanWei},
+			#{xunChaStartTime},
+			#{xunChaEndTime},
+			#{weatherState},
+			#{xunChaType},
+			#{xunChaFangXiang1},
+			#{xunChaStartZHK1},
+			#{xunChaStartZHM1},
+			#{xunChaEndZHK1},
+			#{xunChaEndZHM1},
+			#{xunChaFangXiang2},
+			#{xunChaStartZHK2},
+			#{xunChaStartZHM2},
+			#{xunChaEndZHK2},
+			#{xunChaEndZHM2},
+			#{xunChaLiCheng},
+			#{remark},
+			#{createUserId},
+			getdate(),
+			0,
+			#{luXianId}
+        )
+    </insert>
+    
+    
+    
+    
+    
+	<select id="queryXunChaTouListPage"  resultType="Map"  parameterType="Map" >
+		select 
+				xct.ids,
+				xct.guanLiDanWei,
+				xct.xunChaStartTime,
+				xct.xunChaEndTime,
+				xct.weatherState,
+				xct.xunChaType,
+				xct.xunChaFangXiang1,
+				xct.xunChaStartZHK1,
+				xct.xunChaStartZHM1,
+				xct.xunChaEndZHK1,
+				xct.xunChaEndZHM1,
+				xct.xunChaFangXiang2,
+				xct.xunChaStartZHK2,
+				xct.xunChaStartZHM2,
+				xct.xunChaEndZHK2,
+				xct.xunChaEndZHM2,
+				xct.xunChaLiCheng,
+				xct.remark,
+				xct.createUserId,
+				xct.createTime,
+				xct.state,
+				xct.luXianId
+				
+			FROM
+				DMS_XC_xunChaTou xct
+		<trim prefix="WHERE" prefixOverrides="AND">
+			<if test="xunChaType != null and xunChaType != ''">
+				AND xct.xunChaType = #{xunChaType }
+			</if>
+			<if test="sdate != null and sdate != '' ">
+				AND xct.xunChaStartTime between #{sdate } 
+							<if test="edate != null and edate != '' ">
+								and  #{edate } 
+							</if>
+							<if test="edate == null and edate == '' ">
+								and  getdate()
+							</if>
+				
+			</if>
+			
+			<if test="rolesql != null and rolesql != ''">
+				 ${rolesql}
+			</if>
+		</trim>
+	</select>
+	
+	<select id="queryByIds"  resultType="Map"  parameterType="Map" >
+			SELECT
+				*
+			FROM
+				DMS_XC_xunChaTou where ids=#{ids}
+	</select>
+	
+	
+	
+</mapper>

@@ -1,0 +1,14 @@
+package com.junl.apps.mapper;
+import java.util.List;
+import java.util.Map;
+
+import com.junl.frame.core.BaseMapper;
+
+public interface WXFzhlMapper extends BaseMapper<Object>{
+	/**
+	 * 获取防撞护栏列表
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Map<String, Object>> queryWXFzhlListPage(Map<String, Object> map) throws Exception;
+}

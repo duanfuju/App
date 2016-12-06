@@ -1,0 +1,35 @@
+package com.junl.apps.service.jiliang;
+
+
+import java.util.List;
+import java.util.Map;
+
+import com.junl.apps.form.JiLiangForm;
+import com.junl.frame.core.common.page.PageInfo;
+/**
+ * 
+ * @author dfj
+ * @date 2016年8月19日下午2:35:42 
+ * @description
+ *
+ */
+public interface IJiLiang {
+	/**
+	 * 获取报验列表
+	 * @return
+	 * @throws Exception
+	 */
+	public PageInfo queryJiLiangListPage(JiLiangForm form) throws Exception;
+	
+	
+	
+	
+	/**
+	 * 根据报验的ids获取维修的数量（中间计量中的计量页面上的维修数量）
+	 * @param form
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Map<String, Object>> queryWeiXiuNumByBaoYanIds(JiLiangForm form) throws Exception;
+	
+}

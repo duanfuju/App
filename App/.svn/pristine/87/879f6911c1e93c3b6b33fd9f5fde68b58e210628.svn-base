@@ -1,0 +1,20 @@
+package com.junl.apps.service.fzhl;
+
+
+import com.junl.apps.form.FzhlForm;
+import com.junl.frame.core.common.page.PageInfo;
+/**
+ * 
+ * @author dfj
+ * @date 2016年8月18日下午9:05:32 
+ * @description
+ *
+ */
+public interface IFzhl {
+	/**
+	 * 获取交通列表
+	 * @return
+	 * @throws Exception
+	 */
+	public PageInfo queryWXFzhlListPage(FzhlForm form) throws Exception;
+}

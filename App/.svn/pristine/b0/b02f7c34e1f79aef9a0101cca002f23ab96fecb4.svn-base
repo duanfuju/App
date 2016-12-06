@@ -1,0 +1,116 @@
+package com.junl.apps.form;
+
+import java.util.Date;
+/**
+ * 
+ * @author dfj
+ * @date 2016年8月18日下午1:57:20 
+ * @description
+ *
+ */
+public class XunChaTouForm {
+	
+	
+	
+	/**
+	 * 当前页码
+	 */
+	private int pageNo=1;
+	/**
+	 * 限制查询的记录数
+	 */	
+	private int limit=20;
+	/**
+	 * 巡查类型
+	 */
+	private String xunChaType;
+	/**
+	 * 巡查开始时间
+	 */
+	private Date sdate;
+	/**
+	 * 巡查结束时间
+	 */
+	private Date edate;
+	/**
+	 * 巡查人
+	 */
+	private String createUserId;
+	/**
+	 * 是否排序
+	 */
+	private boolean sort = false;
+	
+	/**
+	 * 排序列
+	 */
+	private String sortName;
+	
+	/**
+	 * 排序类型   desc / asc
+	 */
+	private String sortType = "desc";
+	
+	public boolean isSort() {
+		return sort;
+	}
+	public void setSort(boolean sort) {
+		this.sort = sort;
+	}
+	public String getSortName() {
+		return sortName;
+	}
+	public void setSortName(String sortName) {
+		this.sortName = sortName;
+	}
+	public String getSortType() {
+		return sortType;
+	}
+	public void setSortType(String sortType) {
+		this.sortType = sortType;
+	}
+	public int getPageNo() {
+		return pageNo;
+	}
+	public void setPageNo(int pageNo) {
+		this.pageNo = pageNo;
+	}
+	public int getLimit() {
+		return limit;
+	}
+	public void setLimit(int limit) {
+		this.limit = limit;
+	}
+	public String getXunChaType() {
+		return xunChaType;
+	}
+	public void setXunChaType(String xunChaType) {
+		this.xunChaType = xunChaType;
+	}
+	public Date getSdate() {
+		return sdate;
+	}
+	public void setSdate(Date sdate) {
+		this.sdate = sdate;
+	}
+	public Date getEdate() {
+		return edate;
+	}
+	public void setEdate(Date edate) {
+		this.edate = edate;
+	}
+	public String getCreateUserId() {
+		return createUserId;
+	}
+	public void setCreateUserId(String createUserId) {
+		this.createUserId = createUserId;
+	}
+
+	public XunChaTouForm() {
+		super();
+	}
+	
+	
+
+	
+}

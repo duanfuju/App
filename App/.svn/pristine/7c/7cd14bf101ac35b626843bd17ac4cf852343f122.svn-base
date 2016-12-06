@@ -1,0 +1,14 @@
+package com.junl.apps.service.rwtask;
+
+
+import com.junl.apps.form.RWTaskForm;
+import com.junl.frame.core.common.page.PageInfo;
+
+public interface IRwTask {
+	/**
+	 * 获取任务列表
+	 * @return
+	 * @throws Exception
+	 */
+	public PageInfo queryRWTaskListPage(RWTaskForm form) throws Exception;
+}

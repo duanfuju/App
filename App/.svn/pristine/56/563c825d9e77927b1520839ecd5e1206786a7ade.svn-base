@@ -1,0 +1,14 @@
+package com.junl.apps.mapper;
+import java.util.List;
+import java.util.Map;
+
+import com.junl.frame.core.BaseMapper;
+
+public interface WXYouWuMapper extends BaseMapper<Object>{
+	/**
+	 * 获取油污列表
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Map<String, Object>> queryWXYouWuListPage(Map<String, Object> map) throws Exception;
+}

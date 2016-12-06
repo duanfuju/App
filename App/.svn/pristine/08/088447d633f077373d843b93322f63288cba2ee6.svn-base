@@ -1,0 +1,20 @@
+package com.junl.apps.service.youwu;
+
+
+import com.junl.apps.form.YouWuForm;
+import com.junl.frame.core.common.page.PageInfo;
+/**
+ * 
+ * @author dfj
+ * @date 2016年8月18日下午7:59:53 
+ * @description
+ *
+ */
+public interface IYouWu {
+	/**
+	 * 获取油污列表
+	 * @return
+	 * @throws Exception
+	 */
+	public PageInfo queryWXYouWuListPage(YouWuForm form) throws Exception;
+}

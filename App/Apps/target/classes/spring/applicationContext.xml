@@ -1,0 +1,66 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:ehcache="http://ehcache-spring-annotations.googlecode.com/svn/schema/ehcache-spring" 
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+ 				http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+ 				http://www.springframework.org/schema/aop
+ 				http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+ 				http://www.springframework.org/schema/context
+ 				http://www.springframework.org/schema/context/spring-context-4.0.xsd
+ 				http://www.springframework.org/schema/tx
+ 				http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+ 				http://www.springframework.org/schema/mvc
+ 				http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+				http://ehcache-spring-annotations.googlecode.com/svn/schema/ehcache-spring     
+    			http://ehcache-spring-annotations.googlecode.com/svn/schema/ehcache-spring/ehcache-spring-1.1.xsd"
+ 				>
+
+	
+	<!-- 异常拦截 -->
+	<bean id="exceptionAspect" class="com.junl.frame.core.exception.ExceptionAspect" />
+	
+	<aop:aspectj-autoproxy proxy-target-class="true" />
+	
+	
+	<!-- 扫描器注入 -->
+	<context:component-scan base-package="com.junl.apps.service"/>
+	<context:component-scan base-package="com.junl.frame.core"/>
+	<context:component-scan base-package="com.junl.frame.tools"/>
+	
+	<aop:config proxy-target-class="true">
+		<aop:pointcut id="exceptionPointCut"
+			expression="execution (* com.junl.*.*.*(..))" />
+		<aop:aspect ref="exceptionAspect">
+			<aop:around method="afterThrowing" pointcut-ref="exceptionPointCut" />
+		</aop:aspect>
+	</aop:config>
+	
+	<!-- 配置线程池 -->  
+	<bean id ="uploadTaskExecutor"  class ="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor" >  
+		<!-- 线程池维护线程的最少数量 -->  
+		<property name ="corePoolSize" value ="5" />  
+    	<!-- 线程池维护线程所允许的空闲时间 -->  
+		<property name ="keepAliveSeconds" value ="30000" />  
+   	 	<!-- 线程池维护线程的最大数量 -->  
+		<property name ="maxPoolSize" value ="1000" />  
+    	<!-- 线程池所使用的缓冲队列 -->  
+		<property name ="queueCapacity" value ="200" />  
+	</bean>
+	
+	<!-- ehcache + spring 集成 -->
+	<ehcache:annotation-driven />
+	<ehcache:config cache-manager="cacheManager">  
+        <ehcache:evict-expired-elements  
+            interval="60" />  
+    </ehcache:config>  
+	
+	<bean id="cacheManager"
+        class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+        <property name="configLocation" value="classpath:ehcache.xml" />
+    </bean>
+</beans>

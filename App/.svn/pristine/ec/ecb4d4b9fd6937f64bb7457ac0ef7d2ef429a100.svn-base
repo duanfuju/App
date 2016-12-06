@@ -1,0 +1,70 @@
+package com.junl.apps.service.xunchainfo;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.junl.apps.common.PageInfoSetCondition;
+import com.junl.apps.form.XunChaInfoForm;
+import com.junl.apps.mapper.XunChaInfoMapper;
+import com.junl.apps.model.XunChaInfoXCModel;
+import com.junl.frame.core.common.page.PageInfo;
+import com.junl.frame.tools.UUIDGenerator;
+
+
+
+@Service
+public class XunChaInfoImpl implements IXunChaInfo{
+
+	
+	
+	@Autowired
+	private XunChaInfoMapper mapper;
+	
+	/*
+	 * (non-Javadoc)
+	 * @see com.junl.apps.service.xunchainfo.IXunChaInfo#queryXunChaInfoListPage(com.junl.apps.form.XunChaInfoForm)
+	 */
+	public PageInfo queryXunChaInfoListPage(XunChaInfoForm form) throws Exception {
+		
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("wxmkId", form.getWxmkId());
+		params.put("sdate", form.getSdate());
+		params.put("edate", form.getEdate());
+		params.put("xunChaUserId", form.getXunChaUserId());
+		params.put("notInTaskIds", form.getNotInTaskIds());
+		//设置分页参数
+		PageInfoSetCondition.SetCondition(form.getPageInfo(), "xunChaTime", "desc");
+		params.put("page", form.getPageInfo());
+		List<Map<String, Object>> list = mapper.queryXunChaInfoListPage(params);
+		form.getPageInfo().setResults(list);
+		
+		return form.getPageInfo();
+	}
+
+	/**
+	 *  根据巡查信息的ids获取维修项信息
+	 */
+	public List<Map<String, Object>> queryFzhlTable(String ids) throws Exception {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("ids", ids);
+		return mapper.queryFzhlTable(params);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.junl.apps.service.xunchainfo.IXunChaInfo#insertXunInfo(com.junl.apps.model.XunChaInfoXCModel)
+	 */
+	public int insertXunInfo(XunChaInfoXCModel model) throws Exception {
+		//设置主键
+		model.setIds(UUIDGenerator.generate());
+		return mapper.insertXunInfo(model);
+	}
+
+	
+	
+
+}

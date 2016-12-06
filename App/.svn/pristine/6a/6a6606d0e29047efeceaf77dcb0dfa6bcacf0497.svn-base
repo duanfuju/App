@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  	
+<mapper namespace="com.junl.apps.mapper.XunChaInfoMapper">
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	 <insert id="insertXunInfo" parameterType="XunChaInfoXCModel">
+        INSERT INTO
+        	DMS_XC_xunChaInfo
+        values(
+        	#{ids},
+			#{xunChaStartZHK},
+			#{xunChaStartZHM},
+			#{xunChaEndZHK},
+			#{xunChaEndZHM},
+			#{xiuBuBiaoZhi},
+			#{wxmkId},
+			#{binghaiOrQueXianType},
+			#{binghaiOrQueXianMiaoShu},
+			#{level},
+			#{yuGuGongChengLiang},
+			#{yuGuGongChengLiangDw},
+			#{xunChaTime},
+			#{remark},
+			#{imgs},
+			#{xunChaUserId},
+			#{xunChaTouId},
+			#{luXian},
+			#{wzType},
+			#{wzName},
+			#{wzMiaoShu},
+			getdate(),
+			0
+        )
+    </insert>
+	<select id="queryXunChaInfoListPage"  resultType="Map"  parameterType="Map" >
+		select 
+				info.*,ci.name wxmkName
+				
+			from
+				
+				DMS_XC_xunChaInfo info 
+			LEFT JOIN DMS_PZ_chooseInfo ci on ci.ids=info.wxmkId
+		<trim prefix="WHERE" prefixOverrides="AND">
+			
+			<if test="sdate != null and sdate != '' ">
+				AND info.xunChaTime  between #{sdate } 
+							<if test="edate != null and edate != '' ">
+								and  #{edate } 
+							</if>
+							<if test="edate == null and edate == '' ">
+								and  getdate()
+							</if>
+				
+			</if>
+			<if test="wxmkId != null and wxmkId != ''">
+				AND info.wxmkId  = #{wxmkId }
+			</if>
+			<if test="createUserId != null and createUserId != ''">
+				AND info.xunChaUserId = #{createUserId }
+			</if>
+			<if test="notInTaskIds != null and notInTaskIds != ''">
+				AND info.Ids = #{notInTaskIds }
+			</if>
+		</trim>
+	</select>
+	<select id="queryFzhlTable"  resultType="Map"  parameterType="Map" >
+		SELECT * FROM DMS_XC_xunChaInfo_fzhl_relate where xunChaInfoId =#{ids}
+	</select>
+	
+	
+	
+	
+</mapper>

@@ -1,0 +1,90 @@
+package com.junl.apps.form;
+
+import java.util.Date;
+
+import com.junl.apps.common.BaseForm;
+
+/**
+ * 
+ * @author dfj
+ * @date 2016年8月18日下午5:44:39 
+ * @description
+ *
+ */
+public class XunChaInfoForm extends BaseForm {
+	/**
+	 * 巡查类型
+	 */
+	private String xunChaType;
+	/**
+	 * 巡查开始时间
+	 */
+	private Date sdate;
+	/**
+	 * 巡查结束时间
+	 */
+	private Date edate;
+	/**
+	 * 巡查人
+	 */
+	private String createUserId;
+	/**
+	 * 不包含的巡查细信息的ids
+	 */
+	private String notInTaskIds;
+	/**
+	 * 维修模块id
+	 */
+	private String wxmkId;
+	
+	
+	
+	public String getWxmkId() {
+		return wxmkId;
+	}
+	public void setWxmkId(String wxmkId) {
+		this.wxmkId = wxmkId;
+	}
+	public String getXunChaType() {
+		return xunChaType;
+	}
+	public void setXunChaType(String xunChaType) {
+		this.xunChaType = xunChaType;
+	}
+	public Date getSdate() {
+		return sdate;
+	}
+	public void setSdate(Date sdate) {
+		this.sdate = sdate;
+	}
+	public Date getEdate() {
+		return edate;
+	}
+	public void setEdate(Date edate) {
+		this.edate = edate;
+	}
+	public String getCreateUserId() {
+		return createUserId;
+	}
+	public void setCreateUserId(String createUserId) {
+		this.createUserId = createUserId;
+	}
+	public String getNotInTaskIds() {
+		return notInTaskIds;
+	}
+	public void setNotInTaskIds(String notInTaskIds) {
+		this.notInTaskIds = notInTaskIds;
+	}
+	public XunChaInfoForm(String xunChaType, Date sdate, Date edate, String createUserId, String notInTaskIds) {
+		super();
+		this.xunChaType = xunChaType;
+		this.sdate = sdate;
+		this.edate = edate;
+		this.createUserId = createUserId;
+		this.notInTaskIds = notInTaskIds;
+	}
+	public XunChaInfoForm() {
+		super();
+	}
+	
+}

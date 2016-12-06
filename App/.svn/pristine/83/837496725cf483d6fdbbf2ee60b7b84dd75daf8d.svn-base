@@ -1,0 +1,49 @@
+package com.junl.apps.service.xunchatou;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.junl.apps.form.XunChaTouForm;
+import com.junl.apps.mapper.XunChaTouMapper;
+import com.junl.frame.core.common.page.PageInfo;
+
+
+
+@Service
+public class XunChaTouImpl implements IXunChaTou{
+
+	
+	
+	@Autowired
+	private XunChaTouMapper mapper;
+	
+	/*
+	 * (non-Javadoc)
+	 * @see com.junl.apps.service.xunchatou.IXunChaTou#queryXunChaTouListPage(java.util.Map)
+	 */
+	public PageInfo queryXunChaTouListPage(XunChaTouForm form) throws Exception {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("xunChaType", form.getXunChaType());
+		params.put("sdate", form.getSdate());
+		params.put("edate", form.getEdate());
+		params.put("createUserId", form.getCreateUserId());
+		//设置分页参数
+		PageInfo pageinfo = new PageInfo();
+		pageinfo.setLimit(form.getLimit());
+		pageinfo.setPageNo(form.getPageNo());
+		pageinfo.setSort(true);
+		pageinfo.setSortName("createTime");
+		pageinfo.setSortType("desc");
+		params.put("page", pageinfo);
+		List<Map<String, Object>> list = mapper.queryXunChaTouListPage(params);
+		 
+		pageinfo.setResults(list);
+		
+		return pageinfo;
+	}
+
+}

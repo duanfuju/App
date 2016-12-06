@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  	
+<mapper namespace="com.junl.apps.mapper.JiLiangMapper">
+	
+	
+
+	 <insert id="insertJiLiang" parameterType="BaoYanModel">
+        INSERT INTO
+        	DMS_BY_weiXiuBaoYanP
+        values(
+	        	#{ids},
+				#{byIds},
+				0,
+				#{confirmTime},
+				0,
+				0,
+				0
+        )
+    </insert>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<select id="queryJiLiangListPage"  resultType="Map"  parameterType="Map" >
+		SELECT
+				byan.ids byanIds,
+				byan.byNo byNo,
+				byan.baoYanPeople baoYanPeople,
+				byan.baoYanTime baoYanTime,
+				jl.ids jlIds,
+				jl.returnNum returnNum,
+				jl.state state,
+				jl.confirmTime confirmTime,
+				jl.meteringNum	meteringNum,
+				jl.meteringMoney meteringMoney,
+				sum(r.taskWeiXiuNum) taskWeiXiuNum
+				
+		FROM
+				DMS_JL_jiLing jl ,DMS_BY_weiXiuBaoYanP byan,DMS_BY_weiXiuBaoYanF f ,DMS_RW_task_info_relate r  
+		<trim prefix="WHERE" prefixOverrides="AND">
+			and jl.byIds=byan.ids and f.taskId=r.ids  and byan.ids=f.byIds
+			
+			<if test="state != null and state != ''">
+				AND  jl.state = #{state }
+			</if>
+			<if test="byNo != null and byNo != ''">
+				AND  byan.byNo = #{byNo }
+			</if>
+		</trim>
+		GROUP BY byan.ids,byan.byNo,byan.baoYanPeople,byan.baoYanTime,
+				 jl.ids,jl.returnNum,jl.state,jl.confirmTime,jl.meteringNum,jl.meteringMoney
+	</select>
+	
+	
+	<select id="queryWeiXiuNumByBaoYanIds"  resultType="Map"  parameterType="Map" >
+		select sum(taskWeiXiuNum) taskWeiXiuNum from DMS_BY_weiXiuBaoYanF f ,DMS_RW_task_info_relate r 
+											where f.taskId=r.ids and f.byIds =#{byIds}
+	
+	</select>
+	
+	
+	
+	
+	
+</mapper>

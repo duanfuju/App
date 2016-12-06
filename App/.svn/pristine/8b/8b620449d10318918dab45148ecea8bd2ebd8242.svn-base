@@ -1,0 +1,14 @@
+package com.junl.apps.mapper;
+import java.util.List;
+import java.util.Map;
+
+import com.junl.frame.core.BaseMapper;
+
+public interface BaoYanMapper extends BaseMapper<Object>{
+	/**
+	 * 获取报验列表
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Map<String, Object>> queryBaoYanListPage(Map<String, Object> map) throws Exception;
+}

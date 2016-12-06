@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  	
+<mapper namespace="com.junl.apps.mapper.WXLieFengMapper">
+	
+	<select id="queryWXLieFengListPage"  resultType="Map"  parameterType="Map" >
+			SELECT
+				*
+			FROM
+				DMS_WX_lieFengDispose liefeng
+		
+		<trim prefix="WHERE" prefixOverrides="AND">
+			<if test="wzName != null and wzName != ''">
+				AND liefeng.wzName like '%'+#{wzName }+'%'
+			</if>
+		</trim>
+	</select>
+	<!--  循环查询各个维修记录表
+	首先根据报验的主键ids到报验外键表获取任务（任务表的外键表）的ids
+	根据获取到的任务（任务表的外键表）的ids获取维修表的记录数 -->
+	<select id="queryForEach" resultType="Map"  parameterType="Map" >
+		select 
+			wx.state wxState,taskrelate.ids taskrelateIds, wx.meteringMoney meteringMoney,task.taskNo taskNo,wx.ids ids, wx.startZHK startZHK,wx.startZHM startZHM,wx.endZHK endZHK,wx.endZHM endZHM,wx.luXian luXian,wx.wzType wzType,wx.wzName wzName,wx.meteringNum meteringNum,xc.binghaiOrQueXianType binghaiOrQueXianType 
+		from 
+			DMS_WX_lieFengDispose wx,DMS_RW_task_info_relate taskrelate,DMS_XC_xunChaInfo xc,DMS_RW_task task
+		where 
+			xc.ids=taskrelate.xunChaInfoId 
+			 and wx.taskInfoRelate=taskrelate.ids
+			 and taskrelate.taskId=task.ids
+			 and isnull(wx.state,0)!=2 
+			 and wx.taskInfoRelate IN (select taskId from DMS_BY_weiXiuBaoYanF f  where f.byIds=#{byIds})
+	</select>	
+</mapper>

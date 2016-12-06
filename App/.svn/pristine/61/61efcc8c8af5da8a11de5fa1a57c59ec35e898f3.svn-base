@@ -1,0 +1,126 @@
+package com.junl.apps.mapper;
+
+
+import java.util.List;
+import java.util.Map;
+
+import java.sql.SQLException;
+
+import com.junl.apps.model.LuxianPZModel;
+import com.junl.frame.core.BaseMapper;
+
+/**
+ * 
+ * @author LEON
+ * @date 2016年8月17日 下午8:12:48
+ * @description 
+ *		配置信息所有表操作
+ */
+public interface PeizhiMapper extends BaseMapper<LuxianPZModel> {
+	
+	
+	
+	/**
+	 * 根据选择信息表中的ids(DMS_PZ_bingHaiIndex:wxmkId)获取病害类型 
+	 * @param params
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Map<String, Object>> queryBingHaiIndexByWxmkId(Map<String, Object> params) throws Exception;
+	/**
+	 * 根据类型查询选择信息表
+	 * @param params
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Map<String, Object>> queryChooseInfoByType(Map<String, Object> params) throws Exception;
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/**
+	 * 根据用户的ids获取所配置的养护路段的ids
+	 * @return
+	 * @throws Exception
+	 */
+	public Map<String, Object> queryYangHuLuDuanIdByUserId(Map<String, Object> params) throws Exception;
+	/**
+	 * 根据养护路段的ids获取路线的ids
+	 * @return
+	 * @throws Exception
+	 */
+	public Map<String, Object> queryLuXianIdByYangHuLuDuanId(Map<String, Object> params) throws Exception;
+	/**
+	 * 根据路线的ids获取路线的信息
+	 * @return
+	 * @throws Exception
+	 */
+	public Map<String, Object> queryLuXianByluXianIds(Map<String, Object> params) throws Exception;
+	
+	
+	
+	
+	/**
+	 * 查询所有的防撞护栏部件
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Map<String, Object>> queryFzhlBuJian() throws Exception;
+	
+	
+	
+	
+	
+	/**
+	 * 查询维修单位
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Map<String, Object>> queryByCenter() throws Exception;
+	/**
+	 * 查询管理单位
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Map<String, Object>> queryCompany() throws Exception;
+
+	/**
+	 * 
+	 * @author LEON
+	 * @date 2016年8月17日 下午8:13:48
+	 * @description 
+	 *		查询路线位置
+	 * @param params
+	 * @return
+	 * @throws SQLException
+	 *
+	 */
+	public List<Map<String, Object>> queryWeizhi(Map<String, Object> params) throws SQLException;
+	
+	/**
+	 * 
+	 * @author LEON
+	 * @date 2016年8月17日 下午8:43:17
+	 * @description 
+	 *		根据位置类型id和路线id获取方向、互通、收费站、服务区
+	 * @param params
+	 * @return
+	 * @throws SQLException
+	 *
+	 */
+	public List<Map<String, Object>> queryPoint(Map<String, Object> params) throws SQLException;
+	
+	
+	/**
+	 * 根据位置类型id和路线id和方向、互通、收费站、服务区 获取位置描述
+	 * @param params
+	 * @return
+	 * @throws SQLException
+	 */
+	public List<Map<String, Object>> queryWzMiaoShu(Map<String, Object> params)  throws SQLException;
+}

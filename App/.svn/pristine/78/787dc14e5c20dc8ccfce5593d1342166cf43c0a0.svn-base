@@ -1,0 +1,55 @@
+package com.junl.apps.mapper;
+
+import java.util.List;
+import java.util.Map;
+
+import com.junl.apps.model.XunChaTouXCModel;
+import com.junl.frame.core.BaseMapper;
+/**
+ * 
+* @ClassName: XunChaTouMapper
+* @Description: TODO(这里用一句话描述这个类的作用)
+* @author dfj
+* @date 2016年8月24日 下午4:12:14
+*
+ */
+public interface XunChaTouMapper extends BaseMapper<XunChaTouXCModel>{
+	
+	
+	/**
+	 * 获取巡查头列表
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Map<String, Object>> queryXunChaTouListPage(Map<String, Object> map) throws Exception;
+	
+	/**
+	 * 根据ids获取巡查头信息
+	 * @param map
+	 * @return
+	 * @throws Exception
+	 */
+	public Map<String, Object> queryByIds(Map<String, Object> map) throws Exception;
+	/**
+	 * 新增
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 */
+	public int insertXunChaTou(XunChaTouXCModel model) throws Exception;
+	/**
+	 * 修改
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 */
+	public int updateXunChaTou(XunChaTouXCModel model) throws Exception;
+	
+	/**
+	 * 修改巡查登记的状态
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 */
+	public int updateXunChaTouState(Map<String, Object> map) throws Exception;
+}

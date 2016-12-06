@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  	
+<mapper namespace="com.junl.apps.mapper.WXJiaoTongMapper">
+	
+	<select id="queryWXJiaoTongListPage"  resultType="Map"  parameterType="Map" >
+		SELECT
+				*, CONVERT(varchar(100),weiXiuTime, 20) wxtime,CONVERT(varchar(100),createTime, 20) ctime
+		FROM
+			
+				DMS_WX_jtaqssWeiXiu jiaotong
+			
+		<trim prefix="WHERE" prefixOverrides="AND">
+			<if test="wzName != null and wzName != ''">
+				AND jiaotong.wzName like '%'+#{wzName }+'%'
+			</if>
+		</trim>
+	</select>
+	
+</mapper>

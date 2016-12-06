@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  	
+<mapper namespace="com.junl.apps.mapper.WXYangHuMapper">
+	
+	<select id="queryWXYangHuListPage"  resultType="Map"  parameterType="Map" >
+			SELECT
+				*
+			FROM
+				DMS_WX_yangHuTongYongWeiXiu yanghu
+		
+		<trim prefix="WHERE" prefixOverrides="AND">
+			<if test="wzName != null and wzName != ''">
+				AND yanghu.wzName like '%'+#{wzName }+'%'
+			</if>
+		</trim>
+	</select>
+	
+</mapper>

@@ -1,0 +1,73 @@
+package com.junl.apps.controller;
+
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.junl.apps.common.ApiMessage;
+import com.junl.apps.form.FzhlForm;
+import com.junl.apps.form.JiLiangForm;
+import com.junl.apps.service.jiliang.IJiLiang;
+import com.junl.frame.core.common.page.PageInfo;
+
+@Controller
+@RequestMapping("/jiliang")
+public class JiLiangAction {
+	
+	@Autowired
+	private IJiLiang jiliangServices;
+	
+	/**默认分页列表
+	 * 请求地址：http://127.0.0.1:8006/Apps/jiliang/queryJiLiangListPage.do
+	 *		参数：
+	 *			pageNo			当前页码				必填
+	 *			limit			限制查询的记录数		必填
+	 *			state			计量的状态
+	 *			byNo			报验单号
+	 *		返回：json
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="queryJiLiangListPage")
+	public @ResponseBody Map<String, Object> queryJiLiangListPage(
+			@RequestBody JiLiangForm form) throws Exception {
+		
+		try {
+			PageInfo pageInfos = jiliangServices.queryJiLiangListPage(form);
+			return ApiMessage.builder(true, pageInfos);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ApiMessage.builder(false);
+		}
+	}
+	
+	
+	/**根据防撞护栏的ids获取防撞护栏维修部件的数据
+	 * 请求地址：http://127.0.0.1:8006/Apps/jiliang/queryWeiXiuNumByBaoYanIds.do
+	 * 参数：
+	 *			byIds			报验单编号				必填
+	 *			
+	 *		返回：json
+	 * @param form
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="queryWeiXiuNumByBaoYanIds")
+	public @ResponseBody Map<String, Object> queryWeiXiuNumByBaoYanIds(
+			@RequestBody JiLiangForm form) throws Exception {
+		
+		try {
+			List<Map<String, Object>> list = jiliangServices.queryWeiXiuNumByBaoYanIds(form);
+			return ApiMessage.builder(true, list);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ApiMessage.builder(false);
+		}
+	}
+	
+}

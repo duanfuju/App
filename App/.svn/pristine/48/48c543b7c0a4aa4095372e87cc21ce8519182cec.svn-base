@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  	
+<mapper namespace="com.junl.apps.mapper.ChouJianMapper">
+	
+	<select id="queryChouJianListPage"  resultType="Map"  parameterType="Map" >
+		SELECT
+				byan.ids byIds,
+				byan.byNo byNo,
+				jl.ids jlIds,
+				jl.returnNum returnNum,
+				jl.state state,
+				jl.confirmTime confirmTime,
+				jl.meteringNum meteringNum,
+				jl.meteringMoney meteringMoney,
+				cj.state cjstate,
+				cj.samplingTime samplingTime,
+				cj.ids cjIds,
+				sum(r.taskWeiXiuNum) taskWeiXiuNum
+		FROM
+				DMS_JL_jiLing jl ,DMS_BY_weiXiuBaoYanP byan,DMS_BY_weiXiuBaoYanF f ,DMS_RW_task_info_relate r  ,DMS_CJ_chouJian cj
+			where
+			 jl.byIds=byan.ids and f.taskId=r.ids  and byan.ids=f.byIds and cj.jiLingIds=jl.ids
+			<if test="_state!=-1">
+				AND  cj.state >  #{_state }
+			</if>
+			<if test="state != null and state != ''">
+				AND  cj.state = #{state }
+			</if>
+		GROUP BY byan.ids,byan.byNo,jl.ids,jl.returnNum,jl.state,jl.confirmTime,cj.state,cj.samplingTime,cj.ids,jl.meteringNum,jl.meteringMoney
+	</select>
+	
+</mapper>

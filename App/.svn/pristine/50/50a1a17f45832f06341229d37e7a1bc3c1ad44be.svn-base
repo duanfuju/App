@@ -1,0 +1,20 @@
+package com.junl.apps.service.lumian;
+
+
+import com.junl.apps.form.LuMianForm;
+import com.junl.frame.core.common.page.PageInfo;
+/**
+ * 
+ * @author dfj
+ * @date 2016年8月18日下午8:44:22 
+ * @description
+ *
+ */
+public interface ILuMian {
+	/**
+	 * 获取路面列表
+	 * @return
+	 * @throws Exception
+	 */
+	public PageInfo queryWXLuMianListPage(LuMianForm form) throws Exception;
+}

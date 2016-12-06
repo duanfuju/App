@@ -1,0 +1,49 @@
+package com.junl.apps.service.baoyan;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.junl.apps.common.PageInfoSetCondition;
+import com.junl.apps.form.BaoYanForm;
+import com.junl.apps.mapper.BaoYanMapper;
+import com.junl.frame.core.common.page.PageInfo;
+
+
+/**
+ * 
+ * @author dfj
+ * @date 2016年8月19日下午2:07:57 
+ * @description
+ *
+ */
+@Service
+public class BaoYanImpl implements IBaoYan{
+
+	
+	
+	@Autowired
+	private BaoYanMapper mapper;
+	
+	
+	public PageInfo queryBaoYanListPage(BaoYanForm form) throws Exception {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("sdate", form.getSdate());
+		params.put("edate", form.getEdate());
+		//设置分页参数
+		PageInfoSetCondition.SetCondition(form.getPageInfo(), "createTime", "desc");
+		params.put("page", form.getPageInfo());
+		List<Map<String, Object>> list = mapper.queryBaoYanListPage(params);
+		form.getPageInfo().setResults(list);
+		return form.getPageInfo();
+	}
+
+
+
+	
+	
+
+}

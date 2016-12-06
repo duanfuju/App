@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  	
+<mapper namespace="com.junl.apps.mapper.ChouJianMapper">
+	
+	
+	
+	
+	
+	<!-- 修改抽检的状态 -->
+	<update id="updateChouJianState"  parameterType="Map">
+		UPDATE
+			DMS_CJ_chouJian
+		set 
+			state=#{state} ,
+			acceptTime=#{acceptTime}
+		WHERE
+			ids = #{ids}
+	</update>
+	
+	
+
+	<insert id="insertChouJian" parameterType="ChouJianModel">
+        INSERT INTO
+        	DMS_CJ_chouJian
+        values(
+	        	#{ids},
+				#{jiLingIds},
+				#{byIds},
+				0,
+				#{samplingTime},
+				getdate(),
+				#{acceptTime},null
+        )
+    </insert>
+	
+	
+	
+	
+	
+	<!-- 抽检管理		（state代表是抽检任务的，cjstate抽检管理的，jlstate代表是计量的；计量的查询比抽检的查询少一个抽检关系表） -->
+	<select id="queryForEachChouJianGuanLi" resultType="Map"  parameterType="Map" >
+		select 
+				wx.state wxState,taskrelate.ids taskrelateIds, wx.meteringMoney meteringMoney,task.taskNo taskNo,wx.ids ids, wx.startZHK startZHK,wx.startZHM startZHM,wx.endZHK endZHK,wx.endZHM endZHM,wx.luXian luXian,wx.wzType wzType,wx.wzName wzName,wx.meteringNum meteringNum,xc.binghaiOrQueXianType binghaiOrQueXianType
+		from 
+				xz_wx wx,DMS_RW_task_info_relate taskrelate,DMS_XC_xunChaInfo xc,DMS_RW_task task
+				<if test="cjstate != null and cjstate != ''">
+					,DMS_CJ_chouJian_relate cjr
+				</if>
+				
+		where 
+					xc.ids=taskrelate.xunChaInfoId 
+				and wx.taskInfoRelate=taskrelate.ids 
+				and taskrelate.taskId=task.ids
+				
+				<if test="cjstate != null and cjstate != ''">
+					and cjr.weiXiuIds=wx.ids 
+				</if>
+				<if test="state != null and state != ''">
+					and isnull(wx.state,0)=#{state}
+				</if>
+				
+				<if test="jlstate != null and jlstate != ''">
+					and isnull(wx.state,0)!=2
+				</if>
+				and wx.taskInfoRelate IN (select taskId from DMS_BY_weiXiuBaoYanF f  
+											where f.byIds=#{byIds})
+	</select>
+	
+	
+	
+	
+	
+	
+	<select id="queryChouJianListPage"  resultType="Map"  parameterType="Map" >
+		SELECT
+				byan.ids byIds,
+				byan.byNo byNo,
+				byan.baoYanPeople baoYanPeople,
+				byan.baoYanTime baoYanTime,
+				jl.ids jlIds,
+				jl.returnNum returnNum,
+				jl.state state,
+				jl.confirmTime confirmTime,
+				jl.meteringNum meteringNum,
+				jl.meteringMoney meteringMoney,
+				cj.state cjstate,
+				cj.samplingTime samplingTime,
+				cj.ids cjIds,
+				sum(r.taskWeiXiuNum) taskWeiXiuNum
+		FROM
+				DMS_JL_jiLing jl ,DMS_BY_weiXiuBaoYanP byan,DMS_BY_weiXiuBaoYanF f ,DMS_RW_task_info_relate r  ,DMS_CJ_chouJian cj
+			where
+			 jl.byIds=byan.ids and f.taskId=r.ids  and byan.ids=f.byIds and cj.jiLingIds=jl.ids
+			<if test="_state!=-1">
+				AND  cj.state >  #{_state }
+			</if>
+			<if test="state != null and state != ''">
+				AND  cj.state = #{state }
+			</if>
+		GROUP BY byan.ids,byan.byNo,jl.ids,jl.returnNum,jl.state,jl.confirmTime,cj.state,cj.samplingTime,cj.ids,jl.meteringNum,jl.meteringMoney
+	</select>
+	
+</mapper>

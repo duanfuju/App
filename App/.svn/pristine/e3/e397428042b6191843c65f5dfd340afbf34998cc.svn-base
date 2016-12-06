@@ -1,0 +1,61 @@
+package com.junl.apps.service.jiliang;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.junl.apps.common.PageInfoSetCondition;
+import com.junl.apps.form.JiLiangForm;
+import com.junl.apps.mapper.JiLiangMapper;
+import com.junl.frame.core.common.page.PageInfo;
+
+
+/**
+ * 
+ * @author dfj
+ * @date 2016年8月19日下午2:07:57 
+ * @description
+ *
+ */
+@Service
+public class JiLiangImpl implements IJiLiang{
+
+	
+	
+	@Autowired
+	private JiLiangMapper mapper;
+	
+	/**
+	 * 默认分页列表
+	 */
+	public PageInfo queryJiLiangListPage(JiLiangForm form) throws Exception {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("state", form.getState());
+		params.put("byNo", form.getByNo());
+		//设置分页参数
+		PageInfoSetCondition.SetCondition(form.getPageInfo(), "confirmTime", "desc");
+		params.put("page", form.getPageInfo());
+		List<Map<String, Object>> list = mapper.queryJiLiangListPage(params);
+		form.getPageInfo().setResults(list);
+		return form.getPageInfo();
+	}
+
+	/**
+	 * 根据报验的ids获取维修的数量（中间计量中的计量页面上的维修数量）
+	 */
+	@Override
+	public List<Map<String, Object>> queryWeiXiuNumByBaoYanIds(JiLiangForm form) throws Exception {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("byIds", form.getByIds());
+		return mapper.queryWeiXiuNumByBaoYanIds(params);
+	}
+
+
+
+	
+	
+
+}

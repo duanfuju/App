@@ -1,0 +1,208 @@
+package com.junl.apps.service.fzhl;
+
+import java.sql.Timestamp;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.junl.apps.common.PageInfoSetCondition;
+import com.junl.apps.form.FzhlForm;
+import com.junl.apps.form.FzhlRelateForm;
+import com.junl.apps.mapper.WXFzhlMapper;
+import com.junl.frame.core.common.page.PageInfo;
+import com.junl.frame.tools.UUIDGenerator;
+
+
+/**
+ * 
+ * @author dfj
+ * @date 2016年8月18日下午7:59:59 
+ * @description
+ *
+ */
+@Service
+public class FzhlImpl implements IFzhl{
+
+	
+	
+	@Autowired
+	private WXFzhlMapper mapper;
+	
+	
+	public PageInfo queryWXFzhlListPage(FzhlForm form) throws Exception {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("weiXiuRenYuan", form.getWeiXiuRenYuan());
+		params.put("createUserId", form.getCreateUserId());
+		//设置分页参数
+		PageInfoSetCondition.SetCondition(form.getPageInfo(), "weiXiuStartTime", "desc");
+		params.put("page", form.getPageInfo());
+		List<Map<String, Object>> list = mapper.queryWXFzhlListPage(params);
+		form.getPageInfo().setResults(list);
+		return form.getPageInfo();
+	}
+
+
+
+
+	/**
+	 * 根据防撞护栏的ids获取防撞护栏维修部件的数据
+	 */
+	public List<Map<String, Object>> queryFzhlTable(FzhlForm form) throws Exception {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("ids", form.getIds());
+		return mapper.queryFzhlTable(params);
+	}
+
+
+
+	/**
+	 * 循环查询各个维修记录表
+	 * 首先根据报验的主键ids到报验外键表获取任务（任务表的外键表）的ids
+	 * 根据获取到的任务（任务表的外键表）的ids获取维修表的记录数 
+	 * @param map
+	 * @return
+	 * @throws Exception
+	 */
+	@Override
+	public List<Map<String, Object>> queryForEach(Map<String, Object> params) throws Exception {
+		return mapper.queryForEach(params);
+	}
+
+
+
+
+	/**
+	 * 新增
+	 */
+	public int insertFzhl(FzhlForm form) throws Exception {
+		int res=-1;
+		Map<String, Object> params = new HashMap<String, Object>();
+		String key=UUIDGenerator.generate();
+		params.put("ids", key);
+		params.put("weatherState", form.getWeatherState());
+		params.put("qiWen", form.getQiWen());
+		params.put("startZHK", form.getStartZHK());
+		params.put("startZHM", form.getStartZHM());
+		params.put("endZHK", form.getEndZHK());
+		params.put("endZHM", form.getEndZHM());
+		params.put("weiXiuStartTime", form.getWeiXiuStartTime());
+		params.put("weiXiuEndTime", form.getWeiXiuEndTime());
+		params.put("shiGongJiXie", form.getShiGongJiXie());
+		params.put("weiXiuRenYuan", form.getWeiXiuRenYuan());
+		params.put("anQuanYuan", form.getAnQuanYuan());
+		params.put("fuZeRen", form.getFuZeRen());
+		params.put("pingJia", form.getPingJia());
+		params.put("ztXianXing", form.getZtXianXing());
+		params.put("remark", form.getRemark());
+		params.put("imgs", form.getImgs());
+		params.put("taskInfoRelate", form.getTaskInfoRelate());
+		params.put("weiXiuChangDu", form.getWeiXiuChangDu());
+		params.put("juTiWeiZhi", form.getJuTiWeiZhi());
+		params.put("sunHuaiCauseType", form.getSunHuaiCauseType());
+		params.put("sunHuaiCause", form.getSunHuaiCause());
+		params.put("shiGuTime", form.getShiGuTime());
+		params.put("wjsxbCause", form.getWjsxbCause());
+		params.put("sunHuaiMiaoShu", form.getSunHuaiMiaoShu());
+		params.put("qiTaWeiXiuNum", form.getQiTaWeiXiuNum());
+		params.put("createUserId", form.getCreateUserId());
+		params.put("state", 0);
+		params.put("luXian", form.getLuXian());
+		params.put("wzType", form.getWzType());
+		params.put("wzName", form.getWzName());
+		params.put("wzMiaoShu", form.getWzMiaoShu());
+		params.put("createTime", new Timestamp(System.currentTimeMillis()));
+		params.put("luBingType", form.getLuBingType());
+		
+		
+		if (form.getList().size()>0) {
+			for (int i = 0; i < form.getList().size(); i++) {
+				FzhlRelateForm relate =form.getList().get(i);
+				Map<String, Object> params_relate = new HashMap<String, Object>();
+				params_relate.put("ids", UUIDGenerator.generate());
+				params_relate.put("weiXiuBuJian", relate.getWeiXiuBuJian());
+				params_relate.put("jiaoZheng", relate.getJiaoZheng());
+				params_relate.put("gengHuan", relate.getGengHuan());
+				params_relate.put("huiShou", relate.getHuiShou());
+				params_relate.put("weiXiuId", key);
+				mapper.insertFzhlBuJian(params_relate);
+			}
+		}
+		res=mapper.insertFzhl(params);
+		return res;
+	}
+
+
+
+	/**
+	 * 抽检(通过)
+	 */
+	public List<Map<String, Object>> queryForEachAccept(Map<String, Object> map) throws Exception {
+		return mapper.queryForEachAccept(map);
+	}
+	/**
+	 * 抽检(未通过)
+	 */
+	public List<Map<String, Object>> queryForEachNoAccept(Map<String, Object> map) throws Exception {
+		return mapper.queryForEachNoAccept(map);
+	}
+
+
+
+
+	/**
+	 * 修改
+	 */
+	public int updateFzhl(FzhlForm form) throws Exception {
+		deleteFzhlBuJian(form.getIds());
+		if (form.getList().size()>0) {
+			for (int i = 0; i < form.getList().size(); i++) {
+				FzhlRelateForm relate =form.getList().get(i);
+				Map<String, Object> params_relate = new HashMap<String, Object>();
+				params_relate.put("ids", UUIDGenerator.generate());
+				params_relate.put("weiXiuBuJian", relate.getWeiXiuBuJian());
+				params_relate.put("jiaoZheng", relate.getJiaoZheng());
+				params_relate.put("gengHuan", relate.getGengHuan());
+				params_relate.put("huiShou", relate.getHuiShou());
+				params_relate.put("weiXiuId", form.getIds());
+				mapper.insertFzhlBuJian(params_relate);
+			}
+		}
+		return mapper.updateFzhl(form);
+	}
+
+
+
+
+	/**
+	 * 部件的删除
+	 */
+	public int deleteFzhlBuJian(String weiXiuId) throws Exception {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("weiXiuId", weiXiuId);
+		return mapper.deleteFzhlBuJian(params);
+	}
+
+
+	/**
+	 * 更新维修记录的状态（计量）
+	 */
+	public int updateStateAndCalcForEach(Map<String, Object> map) throws Exception {
+		return mapper.updateStateAndCalcForEach(map);
+	}
+
+
+
+
+	/**
+	 * 抽检管理
+	 */
+	public List<Map<String, Object>> queryForEachChouJianGuanLi(Map<String, Object> map) throws Exception {
+		return mapper.queryForEachChouJianGuanLi(map);
+	}
+	
+	
+
+}

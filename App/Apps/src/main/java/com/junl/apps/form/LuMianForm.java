@@ -1,0 +1,63 @@
+package com.junl.apps.form;
+
+
+import com.junl.apps.common.BaseForm;
+
+/**
+ * 
+ * @author dfj
+ * @date 2016年8月18日下午8:34:33 
+ * @description
+ *
+ */
+public class LuMianForm extends BaseForm {
+	/**
+	 * 维修人员
+	 */
+	private String weiXiuRenYuan;
+	/**
+	 * 路线
+	 */
+	private String luXian;
+	
+	private String ids;
+	
+	/**
+	 * 当前用户
+	 */
+	private String createUserId;
+	
+	
+	public String getCreateUserId() {
+		return createUserId;
+	}
+	public void setCreateUserId(String createUserId) {
+		this.createUserId = createUserId;
+	}
+	
+	
+	
+	
+	
+	
+	public String getIds() {
+		return ids;
+	}
+	public void setIds(String ids) {
+		this.ids = ids;
+	}
+	public String getWeiXiuRenYuan() {
+		return weiXiuRenYuan;
+	}
+	public void setWeiXiuRenYuan(String weiXiuRenYuan) {
+		this.weiXiuRenYuan = weiXiuRenYuan;
+	}
+	public String getLuXian() {
+		return luXian;
+	}
+	public void setLuXian(String luXian) {
+		this.luXian = luXian;
+	}
+	
+	
+}

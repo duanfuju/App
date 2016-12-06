@@ -1,0 +1,14 @@
+package com.junl.apps.service.xunchatou;
+
+
+import com.junl.apps.form.XunChaTouForm;
+import com.junl.frame.core.common.page.PageInfo;
+
+public interface IXunChaTou {
+	/**
+	 * 获取巡查头列表
+	 * @return
+	 * @throws Exception
+	 */
+	public PageInfo queryXunChaTouListPage(XunChaTouForm form) throws Exception;
+}

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  	
+<mapper namespace="com.junl.apps.mapper.LatAndLonMapper">
+	<insert id="insertLatAndLonCollect" parameterType="Map" >
+		insert into DMS_APP_latAndLonCollect(
+				ids,
+				weizhi,
+				fangxiang,
+				luxian,
+				zhk,
+				zhm,
+				lat,
+				lon,
+				createTime,
+				createUserId
+				)
+		values(
+				#{ids},
+				#{weizhi},
+				#{fangxiang},
+				#{luxian},
+				#{zhk},
+				#{zhm},
+				#{lat},
+				#{lon},
+				getdate(),
+				#{createUserId}
+				)
+	</insert>
+	
+	
+	
+	<!-- 查询经纬度的 -->
+	<select id="queryPointInfo" parameterType="Map" resultType="Map">  
+		select * from DMS_APP_PointInfo
+	 </select>  
+	
+	
+	
+	
+	
+	
+	
+	
+	
+</mapper>

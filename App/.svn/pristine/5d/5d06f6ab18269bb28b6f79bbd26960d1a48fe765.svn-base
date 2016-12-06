@@ -1,0 +1,58 @@
+package com.junl.apps.service.peizhi;
+
+import java.util.List;
+import java.util.Map;
+
+import com.junl.apps.model.LuxianPZModel;
+
+public interface IPeizhi {
+
+	/**
+	 * 查询所有配置信息
+	 * @return
+	 * @throws Exception
+	 */
+	public List<LuxianPZModel> findAllLuxianPz() throws Exception;
+	
+	/**
+	 * 
+	 * @author LEON
+	 * @date 2016年8月17日 下午8:14:51
+	 * @description 
+	 *		查询位置信息
+	 * @param id 路线id
+	 * @return
+	 * @throws Exception
+	 *
+	 */
+	public List<Map<String, Object>> findWZType(String id) throws Exception;
+
+	
+	/**
+	 * 获取所有维修单位
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Map<String, Object>> findAllByCenter() throws Exception;
+	/**
+	 * 获取所有管理单位
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Map<String, Object>> findAllCompany() throws Exception;
+	
+	/**
+	 * 
+	 * @author LEON
+	 * @date 2016年8月17日 下午8:44:42
+	 * @description 
+	 *		根据位置类型id和路线id获取方向、互通、收费站、服务区
+	 * @param weizhiId 位置id
+	 * @param luxianId 路线id
+	 * @return
+	 * @throws Exception
+	 *
+	 */
+	public List<Map<String, Object>> findPoint(String weizhiId, String luxianId) throws Exception;
+
+}

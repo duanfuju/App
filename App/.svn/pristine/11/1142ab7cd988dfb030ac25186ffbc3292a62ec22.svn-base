@@ -1,0 +1,24 @@
+package com.junl.apps.form;
+
+public class PeizhiForm {
+
+	private String luxianId;
+	private String weizhiId;
+	
+	public String getLuxianId() {
+		return luxianId;
+	}
+
+	public void setLuxianId(String luxianId) {
+		this.luxianId = luxianId;
+	}
+
+	public String getWeizhiId() {
+		return weizhiId;
+	}
+
+	public void setWeizhiId(String weizhiId) {
+		this.weizhiId = weizhiId;
+	}
+	
+}

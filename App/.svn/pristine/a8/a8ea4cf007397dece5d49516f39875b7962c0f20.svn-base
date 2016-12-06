@@ -1,0 +1,39 @@
+package com.junl.apps.service.peizhi;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.junl.apps.mapper.PeizhiMapper;
+import com.junl.apps.model.LuxianPZModel;
+
+@Service
+public class PeizhiImpl implements IPeizhi {
+	
+	@Autowired
+	private PeizhiMapper mapper;
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.junl.apps.service.peizhi.ILuxianPZ#findAllLuxianPz()
+	 */
+	public List<LuxianPZModel> findAllLuxianPz() throws Exception {
+		
+		return mapper.query(null);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.junl.apps.service.peizhi.IPeizhi#findWeizhi(java.lang.String)
+	 */
+	public List<Map<String, Object>> findWZType(String id) throws Exception {
+		
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("luxianId", id);
+		return mapper.queryWeizhi(params);
+	}
+
+}

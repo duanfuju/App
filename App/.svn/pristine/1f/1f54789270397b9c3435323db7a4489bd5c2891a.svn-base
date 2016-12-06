@@ -1,0 +1,97 @@
+package com.junl.apps.model;
+/**
+ * 
+* @ClassName: JiLiangXiMuModel
+* @Description: TODO(这里用一句话描述这个类的作用)
+* @author dfj
+* @date 2016年8月26日 下午4:35:48
+*
+ */
+public class JiLiangXiMuModel {
+	private String ids;
+	private String yanShouXiMu;
+	private String yanShouTime;
+	private double price;
+	private String dw;
+	private double yanShouGongChengLiang;
+	private String imgs;
+	private String remark;
+	private String weiXiuIds;
+	private String jlIds;
+	private String yanShouXiMuId;
+	private String yanShouXiMuLevel;
+	public String getIds() {
+		return ids;
+	}
+	public void setIds(String ids) {
+		this.ids = ids;
+	}
+	public String getYanShouXiMu() {
+		return yanShouXiMu;
+	}
+	public void setYanShouXiMu(String yanShouXiMu) {
+		this.yanShouXiMu = yanShouXiMu;
+	}
+	public String getYanShouTime() {
+		return yanShouTime;
+	}
+	public void setYanShouTime(String yanShouTime) {
+		this.yanShouTime = yanShouTime;
+	}
+	public double getPrice() {
+		return price;
+	}
+	public void setPrice(double price) {
+		this.price = price;
+	}
+	public String getDw() {
+		return dw;
+	}
+	public void setDw(String dw) {
+		this.dw = dw;
+	}
+	public double getYanShouGongChengLiang() {
+		return yanShouGongChengLiang;
+	}
+	public void setYanShouGongChengLiang(double yanShouGongChengLiang) {
+		this.yanShouGongChengLiang = yanShouGongChengLiang;
+	}
+	public String getImgs() {
+		return imgs;
+	}
+	public void setImgs(String imgs) {
+		this.imgs = imgs;
+	}
+	public String getRemark() {
+		return remark;
+	}
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+	public String getWeiXiuIds() {
+		return weiXiuIds;
+	}
+	public void setWeiXiuIds(String weiXiuIds) {
+		this.weiXiuIds = weiXiuIds;
+	}
+	public String getJlIds() {
+		return jlIds;
+	}
+	public void setJlIds(String jlIds) {
+		this.jlIds = jlIds;
+	}
+	public String getYanShouXiMuId() {
+		return yanShouXiMuId;
+	}
+	public void setYanShouXiMuId(String yanShouXiMuId) {
+		this.yanShouXiMuId = yanShouXiMuId;
+	}
+	public String getYanShouXiMuLevel() {
+		return yanShouXiMuLevel;
+	}
+	public void setYanShouXiMuLevel(String yanShouXiMuLevel) {
+		this.yanShouXiMuLevel = yanShouXiMuLevel;
+	}
+	
+	
+}

@@ -1,0 +1,20 @@
+package com.junl.apps.service.baoyan;
+
+
+import com.junl.apps.form.BaoYanForm;
+import com.junl.frame.core.common.page.PageInfo;
+/**
+ * 
+ * @author dfj
+ * @date 2016年8月19日下午2:04:58 
+ * @description
+ *
+ */
+public interface IBaoYan {
+	/**
+	 * 获取报验列表
+	 * @return
+	 * @throws Exception
+	 */
+	public PageInfo queryBaoYanListPage(BaoYanForm form) throws Exception;
+}

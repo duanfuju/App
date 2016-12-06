@@ -1,0 +1,16 @@
+package com.junl.apps.mapper;
+
+import java.util.List;
+import java.util.Map;
+
+import com.junl.apps.model.UserModel;
+import com.junl.frame.core.BaseMapper;
+
+public interface UserMapper extends BaseMapper<UserModel> {
+	/**
+	 * 根据用户权限数据
+	 * @return
+	 */
+	public List<Map<String, Object>> queryUserRole(Map<String, Object> params)throws Exception;
+
+}

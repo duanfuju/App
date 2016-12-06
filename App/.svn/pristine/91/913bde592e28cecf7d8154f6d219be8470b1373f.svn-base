@@ -1,0 +1,26 @@
+package com.junl.apps.service.peizhi;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.junl.apps.mapper.LuxianPZMapper;
+import com.junl.apps.model.LuxianPZModel;
+
+@Service
+public class LuxianPZImpl implements ILuxianPZ {
+	
+	@Autowired
+	private LuxianPZMapper mapper;
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.junl.apps.service.peizhi.ILuxianPZ#findAllLuxianPz()
+	 */
+	public List<LuxianPZModel> findAllLuxianPz() throws Exception {
+		
+		return mapper.query(null);
+	}
+
+}

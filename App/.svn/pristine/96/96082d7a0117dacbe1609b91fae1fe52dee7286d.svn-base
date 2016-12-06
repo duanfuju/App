@@ -1,0 +1,154 @@
+package com.junl.apps.service.baoyan;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.junl.apps.common.PageInfoSetCondition;
+import com.junl.apps.form.BaoYanForm;
+import com.junl.apps.mapper.BaoYanMapper;
+import com.junl.apps.model.BaoYanModel;
+import com.junl.apps.model.BaoYanRelateModel;
+import com.junl.apps.model.JiLiangModel;
+import com.junl.apps.service.jiliang.JiLiangImpl;
+import com.junl.apps.service.rwtask.RwTaskImpl;
+import com.junl.frame.core.common.page.PageInfo;
+import com.junl.frame.tools.UUIDGenerator;
+import com.junl.frame.tools.string.StringUtils;
+
+
+/**
+ * 
+ * @author dfj
+ * @date 2016年8月19日下午2:07:57 
+ * @description
+ *
+ */
+@Service
+public class BaoYanImpl implements IBaoYan{
+
+	
+	
+	@Autowired
+	private BaoYanMapper mapper;
+	
+	@Autowired
+	private RwTaskImpl taskImpl;
+	@Autowired
+	private JiLiangImpl jlImpl;
+	
+	public PageInfo queryBaoYanListPage(BaoYanForm form) throws Exception {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("sdate", form.getSdate());
+		params.put("edate", form.getEdate());
+		//设置分页参数
+		PageInfoSetCondition.SetCondition(form.getPageInfo(), "createTime", "desc");
+		params.put("page", form.getPageInfo());
+		List<Map<String, Object>> list = mapper.queryBaoYanListPage(params);
+		form.getPageInfo().setResults(list);
+		return form.getPageInfo();
+	}
+
+
+	/**
+	 * 获取当前需要新增的任务单编号
+	 */
+	public Map<String, Object> queryTaskNoInThisMonth() throws Exception {
+		Date currentTime = new Date();
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM");
+		Map<String, Object> map=mapper.queryTaskNoInThisMonth();
+		String byNum=StringUtils.changNull(map.get("byNum"));
+		if (byNum.equals("")) {
+			map.put("byNo", "XZYHWX"+formatter.format(currentTime)+"-001");
+		}else{
+			map.put("byNo", "XZYHWX"+formatter.format(currentTime)+"-"+StringUtils.intToStrong(Integer.valueOf(byNum)));
+		}
+		map.put("byPre", "XZYHWX");
+		return map;
+	}
+	public static void main(String[] args) {
+		
+	}
+
+	/**
+	 * 新增关联表
+	 */
+	public int insertBaoYanRelate(BaoYanRelateModel model) throws Exception {
+		//设置主键
+		model.setIds(UUIDGenerator.generate());
+		return mapper.insertBaoYanRelate(model);
+	}
+
+
+	/**
+	 * 删除关联表
+	 */
+	public int deleteBaoYanRelate(String byIds) throws Exception {
+		Map<String, Object> map=new HashMap<String, Object>();
+		map.put("byIds", byIds);
+		return mapper.deleteBaoYanRelate(map);
+	}
+
+
+	/**
+	 * 新增
+	 */
+	public int insertBaoYan(BaoYanModel model) throws Exception {
+		//设置主键
+		model.setIds(UUIDGenerator.generate());
+		for (int i = 0; i < model.getList().size(); i++) {
+			BaoYanRelateModel relate = model.getList().get(i);
+			relate.setByIds(model.getIds());
+			insertBaoYanRelate(relate);
+			//修改任务的状态
+			Map<String, Object> map =new HashMap<String, Object>();
+			map.put("state", 2);
+			map.put("ids", relate.getTaskId());
+			taskImpl.updateTask(map);
+		}
+		//创建计量数据
+		JiLiangModel jl=new JiLiangModel();
+		jl.setByIds(model.getIds());
+		jl.setIds(UUIDGenerator.generate());
+		jlImpl.insertJiLiang(jl);
+		return mapper.insertBaoYan(model);
+	}
+
+
+	/**
+	 * 修改
+	 */
+	public int updateBaoYan(BaoYanModel model) throws Exception {
+		deleteBaoYanRelate(model.getIds());
+		for (int i = 0; i < model.getList().size(); i++) {
+			BaoYanRelateModel relate = model.getList().get(i);
+			relate.setByIds(model.getIds());
+			insertBaoYanRelate(relate);
+		}
+		return mapper.updateBaoYan(model);
+	}
+
+	/**
+	 * 根据报验主键获取任务的数据
+	 */
+	public List<Map<String, Object>> queryTaskBaoYanIds(String byIds) throws Exception {
+		Map<String, Object> map=new HashMap<String, Object>();
+		map.put("byIds", byIds);
+		return mapper.queryTaskBaoYanIds(map);
+	}
+
+
+	@Override
+	public int updateBaoYanState(Map<String, Object> map) throws Exception {
+		return mapper.updateBaoYanState(map);
+	}
+	
+
+	
+
+}

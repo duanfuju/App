@@ -1,0 +1,65 @@
+package com.junl.apps.service.yanghu;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.junl.apps.common.PageInfoSetCondition;
+import com.junl.apps.form.YangHuForm;
+import com.junl.apps.mapper.WXYangHuMapper;
+import com.junl.frame.core.common.page.PageInfo;
+
+
+/**
+ * 
+ * @author dfj
+ * @date 2016年8月18日下午7:59:59 
+ * @description
+ *
+ */
+@Service
+public class YangHuImpl implements IYangHu{
+
+	
+	
+	@Autowired
+	private WXYangHuMapper mapper;
+	
+	
+	public PageInfo queryWXYangHuListPage(YangHuForm form) throws Exception {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("wzName", form.getWzName());
+		//设置分页参数
+		PageInfoSetCondition.SetCondition(form.getPageInfo(), "weiXiuTime", "desc");
+		params.put("page", form.getPageInfo());
+		List<Map<String, Object>> list = mapper.queryWXYangHuListPage(params);
+		form.getPageInfo().setResults(list);
+		return form.getPageInfo();
+	}
+
+
+	/**
+	 * 循环查询各个维修记录表
+	 * 首先根据报验的主键ids到报验外键表获取任务（任务表的外键表）的ids
+	 * 根据获取到的任务（任务表的外键表）的ids获取维修表的记录数 
+	 * @param map
+	 * @return
+	 * @throws Exception
+	 */
+	@Override
+	public List<Map<String, Object>> queryForEach(Map<String, Object> params) throws Exception {
+		return mapper.queryForEach(params);
+	}
+
+
+
+
+
+	
+	
+	
+
+}

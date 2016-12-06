@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  	
+<mapper namespace="com.junl.apps.mapper.BaoYanMapper">
+	
+	<select id="queryBaoYanListPage"  resultType="Map"  parameterType="Map" >
+		SELECT
+				*
+		FROM
+				DMS_BY_weiXiuBaoYanP  baoyan
+				
+			
+		<trim prefix="WHERE" prefixOverrides="AND">
+			
+			<if test="sdate != null and sdate != '' ">
+				AND baoyan.createTime between #{sdate } 
+						<if test="edate != null and edate != '' ">
+							and  #{edate } 
+						</if>
+						<if test="edate == null and edate == '' ">
+							and  getdate()
+						</if>
+				
+			</if>
+		</trim>
+	</select>
+	
+</mapper>

@@ -1,0 +1,11 @@
+package com.junl.apps.service.users;
+
+import java.util.List;
+
+import com.junl.apps.model.UserModel;
+
+public interface IUsers {
+
+	
+	public List<UserModel> doLogin() throws Exception;
+}

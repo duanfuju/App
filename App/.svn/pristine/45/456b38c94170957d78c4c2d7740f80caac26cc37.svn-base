@@ -1,0 +1,71 @@
+package com.junl.apps.controller;
+
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.junl.apps.common.ApiMessage;
+import com.junl.apps.form.LuMianForm;
+import com.junl.apps.service.lumian.ILuMian;
+import com.junl.frame.core.common.page.PageInfo;
+
+@Controller
+@RequestMapping("/lumian")
+public class LuMianAction {
+	
+	@Autowired
+	private ILuMian luMianServices;
+	
+	/**
+	 * 请求地址：http://127.0.0.1:8006/Apps/lumian/queryWXLuMianListPage.do
+	 *		参数：
+	 *			pageNo			当前页码				必填
+	 *			limit			限制查询的记录数		必填
+	 *			weiXiuRenYuan	维修人员
+	 *			luXian			路线
+	 *		返回：json
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="queryWXLuMianListPage")
+	public @ResponseBody Map<String, Object> queryWXLuMianListPage(
+			@RequestBody LuMianForm form) throws Exception {
+		
+		try {
+			PageInfo pageInfos = luMianServices.queryWXLuMianListPage(form);
+			return ApiMessage.builder(true, pageInfos);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ApiMessage.builder(false);
+		}
+	}
+	/**
+	 * 请求地址：http://127.0.0.1:8006/Apps/lumian/queryWayTable.do
+	 * 参数：
+	 *			ids			路面的维修编号				必填
+	 *			
+	 *		返回：json
+	 * @param form
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="queryWayTable")
+	public @ResponseBody Map<String, Object> queryWayTable(
+			@RequestBody LuMianForm form) throws Exception {
+		
+		try {
+			List<Map<String, Object>> list = luMianServices.queryWayTable(form);
+			return ApiMessage.builder(true, list);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ApiMessage.builder(false);
+		}
+	}
+	
+	
+}

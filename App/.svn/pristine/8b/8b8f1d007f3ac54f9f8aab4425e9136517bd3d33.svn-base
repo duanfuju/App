@@ -1,0 +1,48 @@
+package com.junl.apps.service.fzhl;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.junl.apps.common.PageInfoSetCondition;
+import com.junl.apps.form.FzhlForm;
+import com.junl.apps.mapper.WXFzhlMapper;
+import com.junl.frame.core.common.page.PageInfo;
+
+
+/**
+ * 
+ * @author dfj
+ * @date 2016年8月18日下午7:59:59 
+ * @description
+ *
+ */
+@Service
+public class FzhlImpl implements IFzhl{
+
+	
+	
+	@Autowired
+	private WXFzhlMapper mapper;
+	
+	
+	public PageInfo queryWXFzhlListPage(FzhlForm form) throws Exception {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("weiXiuRenYuan", form.getWeiXiuRenYuan());
+		//设置分页参数
+		PageInfoSetCondition.SetCondition(form.getPageInfo(), "weiXiuStartTime", "desc");
+		params.put("page", form.getPageInfo());
+		List<Map<String, Object>> list = mapper.queryWXFzhlListPage(params);
+		form.getPageInfo().setResults(list);
+		return form.getPageInfo();
+	}
+
+
+
+	
+	
+
+}

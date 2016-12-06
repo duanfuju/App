@@ -1,0 +1,46 @@
+package com.junl.apps.form;
+
+import java.util.Date;
+
+import com.junl.apps.common.BaseForm;
+
+
+public class BaoYanForm extends BaseForm {
+
+	
+	/**
+	 * 创建时间（开始）
+	 */
+	private Date sdate;
+	/**
+	 * 创建时间（结束）
+	 */
+	private Date edate;
+	/**
+	 * 报验的主键
+	 */
+	private String byIds;
+	
+	
+	
+	public String getByIds() {
+		return byIds;
+	}
+	public void setByIds(String byIds) {
+		this.byIds = byIds;
+	}
+	public Date getSdate() {
+		return sdate;
+	}
+	public void setSdate(Date sdate) {
+		this.sdate = sdate;
+	}
+	public Date getEdate() {
+		return edate;
+	}
+	public void setEdate(Date edate) {
+		this.edate = edate;
+	}
+	
+	
+}

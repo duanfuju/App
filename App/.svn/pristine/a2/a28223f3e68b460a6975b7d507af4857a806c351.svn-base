@@ -1,0 +1,100 @@
+package com.junl.apps.service.jiliang;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.junl.apps.common.PageInfoSetCondition;
+import com.junl.apps.form.JiLiangForm;
+import com.junl.apps.mapper.JiLiangMapper;
+import com.junl.apps.model.ChouJianModel;
+import com.junl.apps.model.JiLiangModel;
+import com.junl.apps.service.baoyan.BaoYanImpl;
+import com.junl.apps.service.choujian.ChouJianImpl;
+import com.junl.frame.core.common.page.PageInfo;
+import com.junl.frame.tools.UUIDGenerator;
+
+
+/**
+ * 
+ * @author dfj
+ * @date 2016年8月19日下午2:07:57 
+ * @description
+ *
+ */
+@Service
+public class JiLiangImpl implements IJiLiang{
+
+	
+	
+	@Autowired
+	private JiLiangMapper mapper;
+	@Autowired
+	private BaoYanImpl baoyanImpl;
+	@Autowired
+	private ChouJianImpl choujianImpl;
+	
+	
+	/**
+	 * 默认分页列表
+	 */
+	public PageInfo queryJiLiangListPage(JiLiangForm form) throws Exception {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("state", form.getState());
+		params.put("byNo", form.getByNo());
+		//设置分页参数
+		PageInfoSetCondition.SetCondition(form.getPageInfo(), "confirmTime", "desc");
+		params.put("page", form.getPageInfo());
+		List<Map<String, Object>> list = mapper.queryJiLiangListPage(params);
+		form.getPageInfo().setResults(list);
+		return form.getPageInfo();
+	}
+
+	/**
+	 * 根据报验的ids获取维修的数量（中间计量中的计量页面上的维修数量）
+	 */
+	@Override
+	public List<Map<String, Object>> queryWeiXiuNumByBaoYanIds(JiLiangForm form) throws Exception {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("byIds", form.getByIds());
+		return mapper.queryWeiXiuNumByBaoYanIds(params);
+	}
+
+	/**
+	 * 新增
+	 */
+	public int insertJiLiang(JiLiangModel model) throws Exception {
+		//设置主键
+		model.setIds(UUIDGenerator.generate());
+		return mapper.insertJiLiang(model);
+	}
+
+	/**
+	 * 确认已计量
+	 */
+	public int updateJiLiang(Map<String, Object> params) throws Exception {
+		//生成抽检
+		ChouJianModel choujian=new ChouJianModel();
+		choujian.setIds(UUIDGenerator.generate());
+		choujian.setByIds(params.get("byIds").toString());
+		choujian.setJiLingIds(params.get("ids").toString());
+		choujianImpl.insertChouJian(choujian);
+		//报验的状态需要设置为1
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("ids", params.get("byIds").toString());
+		map.put("state", 1);
+		baoyanImpl.updateBaoYanState(map);
+		//改变计量的状态
+		params.put("state", 1);
+		return mapper.updateJiLiang(params);
+	}
+
+
+
+	
+	
+
+}

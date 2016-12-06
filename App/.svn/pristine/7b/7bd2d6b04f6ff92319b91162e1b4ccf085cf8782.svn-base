@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  	
+<mapper namespace="com.junl.apps.mapper.WXYouWuMapper">
+	
+	<select id="queryWXYouWuListPage"  resultType="Map"  parameterType="Map" >
+			SELECT
+				*, CONVERT(varchar(100),disposeTime, 20) distime
+			FROM
+				DMS_WX_youWuDispose dwy
+			WHERE 
+		<trim prefix="WHERE" prefixOverrides="AND">
+			<if test="weatherState != null and weatherState != ''">
+				AND dwy.weatherState like '%'+#{weatherState }+'%'
+			</if>
+			<if test="luXian != null and luXian != ''">
+				AND dwy.luXian like '%'+#{luXian }+'%'
+			</if>
+		</trim>
+	</select>
+	
+</mapper>

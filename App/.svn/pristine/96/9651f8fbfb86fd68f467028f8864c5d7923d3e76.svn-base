@@ -1,0 +1,105 @@
+package com.junl.apps.service.jiaotong;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.junl.apps.common.PageInfoSetCondition;
+import com.junl.apps.form.JiaoTongForm;
+import com.junl.apps.mapper.WXJiaoTongMapper;
+import com.junl.apps.model.WXJiaoTongModel;
+import com.junl.frame.core.common.page.PageInfo;
+import com.junl.frame.tools.UUIDGenerator;
+
+
+/**
+ * 
+ * @author dfj
+ * @date 2016年8月18日下午7:59:59 
+ * @description
+ *
+ */
+@Service
+public class JiaoTongImpl implements IJiaoTong{
+
+	
+	
+	@Autowired
+	private WXJiaoTongMapper mapper;
+	
+	
+	public PageInfo queryWXJiaoTongListPage(JiaoTongForm form) throws Exception {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("wzName", form.getWzName());
+		params.put("createUserId", form.getCreateUserId());
+		//设置分页参数
+		PageInfoSetCondition.SetCondition(form.getPageInfo(), "weiXiuTime", "desc");
+		params.put("page", form.getPageInfo());
+		List<Map<String, Object>> list = mapper.queryWXJiaoTongListPage(params);
+		form.getPageInfo().setResults(list);
+		return form.getPageInfo();
+	}
+
+	/**
+	 * 循环查询各个维修记录表
+	 * 首先根据报验的主键ids到报验外键表获取任务（任务表的外键表）的ids
+	 * 根据获取到的任务（任务表的外键表）的ids获取维修表的记录数 
+	 * @param map
+	 * @return
+	 * @throws Exception
+	 */
+	@Override
+	public List<Map<String, Object>> queryForEach(Map<String, Object> params) throws Exception {
+		return mapper.queryForEach(params);
+	}
+	/**
+	 * 抽检(通过)
+	 */
+	public List<Map<String, Object>> queryForEachAccept(Map<String, Object> map) throws Exception {
+		return mapper.queryForEachAccept(map);
+	}
+	/**
+	 * 抽检(未通过)
+	 */
+	public List<Map<String, Object>> queryForEachNoAccept(Map<String, Object> map) throws Exception {
+		return mapper.queryForEachNoAccept(map);
+	}
+
+	/**
+	 * 新增
+	 */
+	public int insertJiaoTong(WXJiaoTongModel model) throws Exception {
+		//设置主键
+		model.setIds(UUIDGenerator.generate());
+		return mapper.insertJiaoTong(model);
+	}
+
+	/**
+	 * 修改
+	 */
+	public int updateJiaoTong(WXJiaoTongModel model) throws Exception {
+		return mapper.updateJiaoTong(model);
+	}
+	
+	/**
+	 * 更新维修记录的状态（计量）
+	 */
+	public int updateStateAndCalcForEach(Map<String, Object> map) throws Exception {
+		return mapper.updateStateAndCalcForEach(map);
+	}
+	/**
+	 * 抽检管理
+	 */
+	public List<Map<String, Object>> queryForEachChouJianGuanLi(Map<String, Object> map) throws Exception {
+		return mapper.queryForEachChouJianGuanLi(map);
+	}
+	/**
+	 *  抽检管理中的验收是否完成 
+	 */
+	public int updateWithYanShou(Map<String, Object> map) throws Exception {
+		return mapper.updateWithYanShou(map);
+	}
+}

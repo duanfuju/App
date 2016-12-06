@@ -1,0 +1,209 @@
+package com.junl.apps.controller;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.junl.apps.common.ApiMessage;
+import com.junl.apps.form.BaoYanForm;
+import com.junl.apps.model.BaoYanModel;
+import com.junl.apps.service.baoyan.IBaoYan;
+import com.junl.frame.core.common.page.PageInfo;
+import com.junl.frame.tools.string.StringUtils;
+
+@Controller
+@RequestMapping("/baoyan")
+public class BaoYanAction {
+	
+	@Autowired
+	private IBaoYan baoyanServices;
+	
+	
+
+	/**根据报验的主键获取维修记录
+	 * 请求地址：http://127.0.0.1:8006/Apps/baoyan/queryWeiXiuViewByBaoyanId.do
+	 *	     参数：
+	 *	     ids			主键				必填
+	 *		返回：json
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="queryWeiXiuViewByBaoyanId")
+	public @ResponseBody Map<String, Object> queryWeiXiuViewByBaoyanId(
+			@RequestBody BaoYanModel model) throws Exception {
+		try {
+			List<Map<String, Object>> list=baoyanServices.queryWeiXiuViewByBaoyanId(model.getIds());
+			return ApiMessage.builder(true, list);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ApiMessage.builder(false);
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	/**查询需要维修报验的维修记录
+	 * 请求地址：http://127.0.0.1:8006/Apps/baoyan/queryWeiXiuView.do
+	 *		参数：
+	 *			无
+	 *		返回：json
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="queryWeiXiuView")
+	public @ResponseBody Map<String, Object> queryWeiXiuView() throws Exception {
+		
+		try {
+			List<Map<String, Object>> list = baoyanServices.queryWeiXiuView();
+			return ApiMessage.builder(true, list);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ApiMessage.builder(false);
+		}
+	}
+	
+	
+	
+	
+	
+	/**报验的新增、修改
+	 * 请求地址：http://127.0.0.1:8006/Apps/baoyan/insertBaoYan.do
+	 *	     参数：
+	 *	     ids			主键				(修改时必填)
+     *       byu			维修中心 			必填
+     *       byPre			验收单前缀			必填
+     *       byNum			验收单序号			必填
+     *       remark			备注
+     *       imgs			图片
+     *       baoYanPeople	报验人			必填
+     *       baoYanTime		报验日期			必填
+     *       shenHePeople	审核人			必填
+     *       shenHeTime		审核日期			必填
+     *       yanShouPeople	验收人			必填
+     *       yanShouTime	验收日期			必填
+     *       byNo			验收单编号			必填
+     *       weiXiuIds[数组] 维修记录ids		必填
+	 *		返回：json
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="insertBaoYan")
+	public @ResponseBody Map<String, Object> insertBaoYan(
+			@RequestBody BaoYanModel model) throws Exception {
+		int res=-1;
+		Map<String, Object> map = new HashMap<String,Object>();
+		try {
+			if (StringUtils.isEmpty(model.getIds())) {
+				res = baoyanServices.insertBaoYan(model);
+			}else{
+				res = baoyanServices.updateBaoYan(model);
+			}
+			map.put("state", res);
+			return ApiMessage.builder(true, map);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ApiMessage.builder(false);
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	/**根据报验主键获取任务的数据
+	 * 请求地址：http://127.0.0.1:8006/Apps/baoyan/queryTaskBaoYanIds.do
+	 *		参数：
+	 *			byIds 		报验的主键ids			必填
+	 *		返回：json
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="queryTaskBaoYanIds")
+	public @ResponseBody Map<String, Object> queryTaskBaoYanIds(
+			@RequestBody BaoYanForm form) throws Exception {
+		try {
+			List<Map<String, Object>>  map= baoyanServices.queryTaskBaoYanIds(form.getByIds());
+			return ApiMessage.builder(true, map);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ApiMessage.builder(false);
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/**生成报验单编号
+	 * 请求地址：http://127.0.0.1:8006/Apps/baoyan/queryTaskNoInThisMonth.do
+	 *		参数：
+	 *			无
+	 *		返回：json
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="queryTaskNoInThisMonth")
+	public @ResponseBody Map<String, Object> queryTaskNoInThisMonth() throws Exception {
+		
+		try {
+			Map<String, Object> map = baoyanServices.queryTaskNoInThisMonth();
+			return ApiMessage.builder(true, map);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ApiMessage.builder(false);
+		}
+	}
+	/**
+	 * 请求地址：http://127.0.0.1:8006/Apps/baoyan/queryBaoYanListPage.do
+	 *		参数：
+	 *			pageNo			当前页码				必填
+	 *			limit			限制查询的记录数		必填
+	 *			sdate			创建时间 （开始）
+	 *			edate			创建时间 （结束）
+	 *		返回：json
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="queryBaoYanListPage")
+	public @ResponseBody Map<String, Object> queryBaoYanListPage(
+			@RequestBody BaoYanForm form) throws Exception {
+		
+		try {
+			PageInfo pageInfos = baoyanServices.queryBaoYanListPage(form);
+			return ApiMessage.builder(true, pageInfos);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ApiMessage.builder(false);
+		}
+	}
+	
+	
+}

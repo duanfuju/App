@@ -1,0 +1,104 @@
+package com.junl.apps.service.lumian;
+
+
+import java.util.List;
+import java.util.Map;
+
+import com.junl.apps.form.LuMianForm;
+import com.junl.apps.model.WXLuMianModel;
+import com.junl.apps.model.WXLuMianRelateModel;
+import com.junl.frame.core.common.page.PageInfo;
+/**
+ * 
+ * @author dfj
+ * @date 2016年8月18日下午8:44:22 
+ * @description
+ *
+ */
+public interface ILuMian {
+	/**
+	 * 更新维修记录的状态（计量）
+	 * @param map
+	 * @return
+	 * @throws Exception
+	 */
+	public int updateStateAndCalcForEach(Map<String, Object> map) throws Exception;
+	/**
+	 * 删除层
+	 * @param form
+	 * @return
+	 * @throws Exception
+	 */
+	public int deleteLuMianCeng(String weiXiuId) throws Exception;
+	/**
+	 * 新增的层
+	 * @param form
+	 * @return
+	 * @throws Exception
+	 */
+	public int insertLuMianCeng(WXLuMianRelateModel form) throws Exception;
+	/**
+	 * 修改
+	 * @param form
+	 * @return
+	 * @throws Exception
+	 */
+	public int updateLuMian(WXLuMianModel form) throws Exception;
+	/**
+	 * 新增
+	 * @param form
+	 * @return
+	 * @throws Exception
+	 */
+	public int insertLuMian(WXLuMianModel form) throws Exception;
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/**
+	 * 获取路面列表
+	 * @return
+	 * @throws Exception
+	 */
+	public PageInfo queryWXLuMianListPage(LuMianForm form) throws Exception;
+	
+	
+	
+	public List<Map<String, Object>> queryWayTable(LuMianForm form) throws Exception;
+	
+	
+	/**
+	 * 循环查询各个维修记录表
+	 * 首先根据报验的主键ids到报验外键表获取任务（任务表的外键表）的ids
+	 * 根据获取到的任务（任务表的外键表）的ids获取维修表的记录数 
+	 * @param map
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Map<String, Object>> queryForEach(Map<String, Object> map) throws Exception;
+	/**通过（抽检）
+	 * 循环查询各个维修记录表
+	 * 首先根据报验的主键ids到报验外键表获取任务（任务表的外键表）的ids
+	 * 根据获取到的任务（任务表的外键表）的ids获取维修表的记录数 
+	 * @param map
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Map<String, Object>> queryForEachAccept(Map<String, Object> map) throws Exception;
+	/**未通过（抽检）
+	 * 循环查询各个维修记录表
+	 * 首先根据报验的主键ids到报验外键表获取任务（任务表的外键表）的ids
+	 * 根据获取到的任务（任务表的外键表）的ids获取维修表的记录数 
+	 * @param map
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Map<String, Object>> queryForEachNoAccept(Map<String, Object> map) throws Exception;
+}

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  	
+<mapper namespace="com.junl.apps.mapper.AppMapper">
+	<insert id="insertApp" parameterType="Map" >
+		insert into DMS_APP_upload(
+				ids,
+				version,
+				realName,
+				fileName,
+				showPath,
+				realPath,
+				createTime,
+				createPeople
+				)
+		values(
+				#{ids},
+				#{version},
+				#{realName},
+				#{fileName},
+				#{showPath},
+				#{realPath},
+				#{createTime},
+				#{createPeople}
+				)
+	</insert>
+	
+	
+</mapper>

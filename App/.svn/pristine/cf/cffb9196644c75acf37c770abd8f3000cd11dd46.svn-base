@@ -1,0 +1,136 @@
+package com.junl.apps.form;
+
+import java.util.Date;
+
+import com.junl.apps.common.BaseForm;
+
+/**
+ * 
+ * @author dfj
+ * @date 2016年8月18日下午5:44:39 
+ * @description
+ *
+ */
+public class RWTaskForm extends BaseForm {
+	/**
+	 * 派单开始时间
+	 */
+	private Date sdate;
+	/**
+	 * 派单结束时间
+	 */
+	private Date edate;
+	/**
+	 * 巡查人
+	 */
+	private String createUserId;
+	/**
+	 * 不包含的任务关联表的ids
+	 */
+	private String notInTaskIds;
+	/**
+	 * 维修模块id
+	 */
+	private String wxmkId;
+	/**
+	 * 负责人
+	 */
+	private String fuZeRen;
+	/**
+	 * 任务关联表的状态
+	 */
+	private String taskRelateState;
+	/**
+	 * 预计任务结束时间 （开始）	作为条件
+	 */
+	private Date oversdate; 
+	/**
+	 * 预计任务结束时间 （结束）  	作为条件
+	 */
+	private Date overedate;
+	/**
+	 * 子任务的编号
+	 */
+	private String taskInfoRelate;
+	
+	
+	public String getTaskInfoRelate() {
+		return taskInfoRelate;
+	}
+	public void setTaskInfoRelate(String taskInfoRelate) {
+		this.taskInfoRelate = taskInfoRelate;
+	}
+	public Date getSdate() {
+		return sdate;
+	}
+	public void setSdate(Date sdate) {
+		this.sdate = sdate;
+	}
+	public Date getEdate() {
+		return edate;
+	}
+	public void setEdate(Date edate) {
+		this.edate = edate;
+	}
+	public String getCreateUserId() {
+		return createUserId;
+	}
+	public void setCreateUserId(String createUserId) {
+		this.createUserId = createUserId;
+	}
+	public String getNotInTaskIds() {
+		return notInTaskIds;
+	}
+	public void setNotInTaskIds(String notInTaskIds) {
+		this.notInTaskIds = notInTaskIds;
+	}
+	public String getWxmkId() {
+		return wxmkId;
+	}
+	public void setWxmkId(String wxmkId) {
+		this.wxmkId = wxmkId;
+	}
+	public String getFuZeRen() {
+		return fuZeRen;
+	}
+	public void setFuZeRen(String fuZeRen) {
+		this.fuZeRen = fuZeRen;
+	}
+	public String getTaskRelateState() {
+		return taskRelateState;
+	}
+	public void setTaskRelateState(String taskRelateState) {
+		this.taskRelateState = taskRelateState;
+	}
+	public Date getOversdate() {
+		return oversdate;
+	}
+	public void setOversdate(Date oversdate) {
+		this.oversdate = oversdate;
+	}
+	public Date getOveredate() {
+		return overedate;
+	}
+	public void setOveredate(Date overedate) {
+		this.overedate = overedate;
+	}
+	public RWTaskForm(Date sdate, Date edate, String createUserId, String notInTaskIds, String wxmkId, String fuZeRen,
+			String taskRelateState, Date oversdate, Date overedate) {
+		super();
+		this.sdate = sdate;
+		this.edate = edate;
+		this.createUserId = createUserId;
+		this.notInTaskIds = notInTaskIds;
+		this.wxmkId = wxmkId;
+		this.fuZeRen = fuZeRen;
+		this.taskRelateState = taskRelateState;
+		this.oversdate = oversdate;
+		this.overedate = overedate;
+	}
+	public RWTaskForm() {
+		super();
+	} 
+	
+	
+	
+}

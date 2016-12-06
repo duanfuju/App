@@ -1,0 +1,42 @@
+package com.junl.apps.form;
+
+
+import com.junl.apps.common.BaseForm;
+/**
+ * 
+ * @author dfj
+ * @date 2016年8月19日上午10:01:00 
+ * @description
+ *
+ */
+public class FzhlForm extends BaseForm {
+
+	/**
+	 * 维修人员
+	 */
+	private String weiXiuRenYuan;
+	
+	private String ids;
+	
+	
+	
+
+	public String getIds() {
+		return ids;
+	}
+
+	public void setIds(String ids) {
+		this.ids = ids;
+	}
+
+	public String getWeiXiuRenYuan() {
+		return weiXiuRenYuan;
+	}
+
+	public void setWeiXiuRenYuan(String weiXiuRenYuan) {
+		this.weiXiuRenYuan = weiXiuRenYuan;
+	}
+
+	
+	
+}

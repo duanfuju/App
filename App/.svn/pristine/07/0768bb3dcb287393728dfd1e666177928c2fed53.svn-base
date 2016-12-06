@@ -1,0 +1,163 @@
+package com.junl.apps.model;
+
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
+/**
+ * 
+* @ClassName: BaoYanModel
+* @Description: TODO(这里用一句话描述这个类的作用)
+* @author dfj
+* @date 2016年8月26日 下午1:50:09
+*
+ */
+public class BaoYanModel {
+	private String ids;
+	private String byu;
+	private String byPre;
+	private int byNum;
+	private Timestamp createTime;
+	private String remark;
+	private String imgs;
+	/**
+	 * 报验人
+	 */
+	private String baoYanPeople;
+	/**
+	 * 报验时间
+	 */
+	private Timestamp baoYanTime;
+	/**
+	 * 审核人
+	 */
+	private String shenHePeople;
+	/**
+	 * 审核时间
+	 */
+	private Timestamp shenHeTime;
+	/**
+	 * 验收人
+	 */
+	private String yanShouPeople;
+	/**
+	 * 验收时间
+	 */
+	private Timestamp yanShouTime;
+	private int state;
+	private String byNo;
+	private int byFNum;
+	private String[] weiXiuIds;
+	
+	private List<BaoYanRelateModel> list = new ArrayList<BaoYanRelateModel>();
+	
+	
+	public String[] getWeiXiuIds() {
+		return weiXiuIds;
+	}
+	public void setWeiXiuIds(String[] weiXiuIds) {
+		this.weiXiuIds = weiXiuIds;
+	}
+	public List<BaoYanRelateModel> getList() {
+		return list;
+	}
+	public void setList(List<BaoYanRelateModel> list) {
+		this.list = list;
+	}
+	public String getIds() {
+		return ids;
+	}
+	public void setIds(String ids) {
+		this.ids = ids;
+	}
+	public String getByu() {
+		return byu;
+	}
+	public void setByu(String byu) {
+		this.byu = byu;
+	}
+	public String getByPre() {
+		return byPre;
+	}
+	public void setByPre(String byPre) {
+		this.byPre = byPre;
+	}
+	public int getByNum() {
+		return byNum;
+	}
+	public void setByNum(int byNum) {
+		this.byNum = byNum;
+	}
+	public Timestamp getCreateTime() {
+		return createTime;
+	}
+	public void setCreateTime(Timestamp createTime) {
+		this.createTime = createTime;
+	}
+	public String getRemark() {
+		return remark;
+	}
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+	public String getImgs() {
+		return imgs;
+	}
+	public void setImgs(String imgs) {
+		this.imgs = imgs;
+	}
+	public String getBaoYanPeople() {
+		return baoYanPeople;
+	}
+	public void setBaoYanPeople(String baoYanPeople) {
+		this.baoYanPeople = baoYanPeople;
+	}
+	public Timestamp getBaoYanTime() {
+		return baoYanTime;
+	}
+	public void setBaoYanTime(Timestamp baoYanTime) {
+		this.baoYanTime = baoYanTime;
+	}
+	public String getShenHePeople() {
+		return shenHePeople;
+	}
+	public void setShenHePeople(String shenHePeople) {
+		this.shenHePeople = shenHePeople;
+	}
+	public Timestamp getShenHeTime() {
+		return shenHeTime;
+	}
+	public void setShenHeTime(Timestamp shenHeTime) {
+		this.shenHeTime = shenHeTime;
+	}
+	public String getYanShouPeople() {
+		return yanShouPeople;
+	}
+	public void setYanShouPeople(String yanShouPeople) {
+		this.yanShouPeople = yanShouPeople;
+	}
+	public Timestamp getYanShouTime() {
+		return yanShouTime;
+	}
+	public void setYanShouTime(Timestamp yanShouTime) {
+		this.yanShouTime = yanShouTime;
+	}
+	public int getState() {
+		return state;
+	}
+	public void setState(int state) {
+		this.state = state;
+	}
+	public String getByNo() {
+		return byNo;
+	}
+	public void setByNo(String byNo) {
+		this.byNo = byNo;
+	}
+	public int getByFNum() {
+		return byFNum;
+	}
+	public void setByFNum(int byFNum) {
+		this.byFNum = byFNum;
+	}
+	
+}

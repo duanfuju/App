@@ -1,0 +1,62 @@
+package com.junl.apps.form;
+
+public class PeizhiForm {
+
+	private String luxianId;
+	private String weizhiId;
+	private String userIds;
+	private String wzName;
+	private String ids;
+	private String createUserId;
+	
+	
+	
+	public String getCreateUserId() {
+		return createUserId;
+	}
+
+	public void setCreateUserId(String createUserId) {
+		this.createUserId = createUserId;
+	}
+
+	public String getIds() {
+		return ids;
+	}
+
+	public void setIds(String ids) {
+		this.ids = ids;
+	}
+
+	public String getWzName() {
+		return wzName;
+	}
+
+	public void setWzName(String wzName) {
+		this.wzName = wzName;
+	}
+
+	public String getUserIds() {
+		return userIds;
+	}
+
+	public void setUserIds(String userIds) {
+		this.userIds = userIds;
+	}
+
+	public String getLuxianId() {
+		return luxianId;
+	}
+
+	public void setLuxianId(String luxianId) {
+		this.luxianId = luxianId;
+	}
+
+	public String getWeizhiId() {
+		return weizhiId;
+	}
+
+	public void setWeizhiId(String weizhiId) {
+		this.weizhiId = weizhiId;
+	}
+	
+}

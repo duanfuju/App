@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  	
+<mapper namespace="com.junl.apps.mapper.XunChaInfoMapper">
+	
+	<select id="queryXunChaInfoListPage"  resultType="Map"  parameterType="Map" >
+		select 
+				info.*,ci.name wxmkName
+				
+			from
+				
+				DMS_XC_xunChaInfo info 
+			LEFT JOIN DMS_PZ_chooseInfo ci on ci.ids=info.wxmkId
+		<trim prefix="WHERE" prefixOverrides="AND">
+			
+			<if test="sdate != null and sdate != '' ">
+				AND info.xunChaTime  between #{sdate } 
+							<if test="edate != null and edate != '' ">
+								and  #{edate } 
+							</if>
+							<if test="edate == null and edate == '' ">
+								and  getdate()
+							</if>
+				
+			</if>
+			<if test="xunChaInfoType != null and wxmkId != ''">
+				AND info.wxmkId  = #{wxmkId }
+			</if>
+			<if test="createUserId != null and createUserId != ''">
+				AND info.createUserId = #{createUserId }
+			</if>
+			<if test="notInTaskIds != null and notInTaskIds != ''">
+				AND info.Ids = #{notInTaskIds }
+			</if>
+		</trim>
+	</select>
+	
+	
+	
+	
+	
+</mapper>

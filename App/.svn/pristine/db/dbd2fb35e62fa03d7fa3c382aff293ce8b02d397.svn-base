@@ -1,0 +1,14 @@
+package com.junl.apps.mapper;
+import java.util.List;
+import java.util.Map;
+
+import com.junl.frame.core.BaseMapper;
+
+public interface WXLuMianMapper extends BaseMapper<Object>{
+	/**
+	 * 获取路面列表
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Map<String, Object>> queryWXLuMianListPage(Map<String, Object> map) throws Exception;
+}

@@ -1,0 +1,45 @@
+package com.junl.apps.service.liefeng;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.junl.apps.common.PageInfoSetCondition;
+import com.junl.apps.form.LieFengForm;
+import com.junl.apps.mapper.WXLieFengMapper;
+import com.junl.frame.core.common.page.PageInfo;
+
+
+/**
+ * 
+ * @author dfj
+ * @date 2016年8月18日下午7:59:59 
+ * @description
+ *
+ */
+@Service
+public class LieFengImpl implements ILieFeng{
+
+	
+	
+	@Autowired
+	private WXLieFengMapper mapper;
+	
+	
+	public PageInfo queryWXLieFengListPage(LieFengForm form) throws Exception {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("wzName", form.getWzName());
+		//设置分页参数
+		PageInfoSetCondition.SetCondition(form.getPageInfo(), "weiXiuTime", "desc");
+		params.put("page", form.getPageInfo());
+		List<Map<String, Object>> list = mapper.queryWXLieFengListPage(params);
+		form.getPageInfo().setResults(list);
+		return form.getPageInfo();
+	}
+	
+	
+
+}

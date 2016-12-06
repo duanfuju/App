@@ -1,0 +1,250 @@
+package com.junl.apps.controller;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.junl.apps.common.ApiMessage;
+import com.junl.apps.form.JiLiangForm;
+import com.junl.apps.model.JiLiangModel;
+import com.junl.apps.model.JiLiangTuiHuiModel;
+import com.junl.apps.model.JiLiangXiMuModel;
+import com.junl.apps.service.fzhl.IFzhl;
+import com.junl.apps.service.jiaotong.IJiaoTong;
+import com.junl.apps.service.jiliang.IJiLiang;
+import com.junl.apps.service.liefeng.ILieFeng;
+import com.junl.apps.service.lumian.ILuMian;
+import com.junl.apps.service.yanghu.IYangHu;
+import com.junl.apps.service.youwu.IYouWu;
+import com.junl.frame.core.common.page.PageInfo;
+
+@Controller
+@RequestMapping("/jiliang")
+public class JiLiangAction {
+	
+	@Autowired
+	private IJiLiang jiliangServices;
+	
+	@Autowired
+	private IFzhl fzhlServices;
+	@Autowired
+	private IJiaoTong jiaotongServices;
+	@Autowired
+	private ILieFeng liefengServices;
+	@Autowired
+	private ILuMian lumianServices;
+	@Autowired
+	private IYangHu yanghuServices;
+	@Autowired
+	private IYouWu youwuServices;
+	
+	
+	
+	
+	/**计量细目的新增
+	 * 请求地址：http://127.0.0.1:8006/Apps/jiliang/insertJiLiangXiMu.do
+	 *		参数：
+	 *			yanShouXiMu					验收细目				必填
+	 *			yanShouTime					验收时间				必填
+	 *			price						单价					必填
+	 *			dw							单位					必填
+	 *			yanShouGongChengLiang		验收工程量				必填
+	 *			imgs						图片
+	 *          remark						备注		
+	 *          weiXiuIds					维修记录的ids			必填
+	 *          jlIds						计量的ids				必填
+	 *          yanShouXiMuId				验收细目ids			必填
+	 *          yanShouXiMuLevel			验收细目level			必填
+	 *		返回：json
+	 * 
+	 * @param form
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="insertJiLiangXiMu")
+	public @ResponseBody Map<String, Object> insertJiLiangXiMu(
+			@RequestBody JiLiangXiMuModel form) throws Exception {
+		Map<String, Object> result =new HashMap<String, Object>();
+		int res=-1;
+		try {
+			res = jiliangServices.insertJiLiangXiMu(form);
+			result.put("state", res);
+			return ApiMessage.builder(true, result);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ApiMessage.builder(false);
+		}
+	}
+	/**计量的退回
+	 * 请求地址：http://127.0.0.1:8006/Apps/jiliang/insertJiLiangTuiHui.do
+	 *		参数：
+	 *          returnTime			退回时间				必填
+	 *          imgs				图片					
+	 *          remark				备注					
+	 *          weiXiuIds			维修编号				必填
+	 *          jlIds				计量的主键ids			必填
+	 *		返回：json
+	 * 
+	 * @param form
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="insertJiLiangTuiHui")
+	public @ResponseBody Map<String, Object> insertJiLiangTuiHui(
+			@RequestBody JiLiangTuiHuiModel form) throws Exception {
+		Map<String, Object> result =new HashMap<String, Object>();
+		int res=-1;
+		try {
+			res = jiliangServices.insertJiLiangTuiHui(form);
+			result.put("state", res);
+			return ApiMessage.builder(true, result);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ApiMessage.builder(false);
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/**修改整个计量的状态
+	 * 请求地址：http://127.0.0.1:8006/Apps/jiliang/updateJiLiang.do
+	 *		参数：
+	 *			ids				计量的主键ids		必填
+	 *			confirmTime		确认时间			必填
+	 *			byIds			报验单ids			必填
+	 *		返回：json
+	 * 
+	 * @param form
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="updateJiLiang")
+	public @ResponseBody Map<String, Object> updateJiLiang(
+			@RequestBody JiLiangModel form) throws Exception {
+		Map<String, Object> result =new HashMap<String, Object>();
+		int res=-1;
+		try {
+			Map<String, Object> map =new HashMap<String, Object>();
+			map.put("ids", form.getIds());
+			map.put("byIds", form.getByIds());
+			map.put("confirmTime", form.getConfirmTime());
+			res = jiliangServices.updateJiLiang(map);
+			result.put("state", res);
+			return ApiMessage.builder(true, result);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ApiMessage.builder(false);
+		}
+	}
+	
+	
+	/**默认分页列表
+	 * 请求地址：http://127.0.0.1:8006/Apps/jiliang/queryJiLiangListPage.do
+	 *		参数：
+	 *			pageNo			当前页码				必填
+	 *			limit			限制查询的记录数		必填
+	 *			state			计量的状态
+	 *			byNo			报验单号
+	 *		返回：json
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="queryJiLiangListPage")
+	public @ResponseBody Map<String, Object> queryJiLiangListPage(
+			@RequestBody JiLiangForm form) throws Exception {
+		
+		try {
+			PageInfo pageInfos = jiliangServices.queryJiLiangListPage(form);
+			return ApiMessage.builder(true, pageInfos);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ApiMessage.builder(false);
+		}
+	}
+	
+	
+	/**根据报验的ids获取维修的数量（中间计量中的计量页面上的维修数量）
+	 * 请求地址：http://127.0.0.1:8006/Apps/jiliang/queryWeiXiuNumByBaoYanIds.do
+	 * 参数：
+	 *			byIds			报验单编号				必填
+	 *		返回：json
+	 * @param form
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="queryWeiXiuNumByBaoYanIds")
+	public @ResponseBody Map<String, Object> queryWeiXiuNumByBaoYanIds(
+			@RequestBody JiLiangForm form) throws Exception {
+		
+		try {
+			List<Map<String, Object>> list = jiliangServices.queryWeiXiuNumByBaoYanIds(form);
+			return ApiMessage.builder(true, list);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ApiMessage.builder(false);
+		}
+	}
+	
+	
+	/**循环查询各个维修记录表(计量操作页面中列表项)
+	 * 首先根据报验的主键ids到报验外键表获取任务（任务表的外键表）的ids
+	 * 根据获取到的任务（任务表的外键表）的ids获取维修表的记录数 
+	 * 请求地址：http://127.0.0.1:8006/Apps/jiliang/queryForEach.do
+	 *			
+	 * 参数：
+	 *			byIds			报验单编号				必填
+	 *		返回：json
+	 * @param form
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="queryForEach")
+	public @ResponseBody Map<String, Object> queryForEach(
+			@RequestBody JiLiangForm form) throws Exception {
+		
+		try {
+			Map<String, Object> params=new HashMap<String, Object>();
+			params.put("byIds", form.getByIds());
+			List<Map<String, Object>> list = fzhlServices.queryForEach(params);
+			list.addAll(jiaotongServices.queryForEach(params));
+			list.addAll(liefengServices.queryForEach(params));
+			list.addAll(lumianServices.queryForEach(params));
+			list.addAll(yanghuServices.queryForEach(params));
+			list.addAll(youwuServices.queryForEach(params));
+			return ApiMessage.builder(true, list);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ApiMessage.builder(false);
+		}
+	}
+	
+}

@@ -1,0 +1,54 @@
+package com.junl.apps.controller;
+
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.junl.apps.common.ApiMessage;
+import com.junl.apps.form.RWTaskForm;
+import com.junl.apps.service.rwtask.IRwTask;
+import com.junl.frame.core.common.page.PageInfo;
+
+@Controller
+@RequestMapping("/rwtask")
+public class RWTaskAction {
+	
+	@Autowired
+	private IRwTask rwTaskServices;
+	
+	/**
+	 * 请求地址：http://127.0.0.1:8006/Apps/rwtask/queryRWTaskListPage.do
+	 *		参数：
+	 *			pageNo			当前页码				必填
+	 *			limit			限制查询的记录数		必填
+	 *			fuZeRen			负责人
+	 *			sdate			派单时间 （开始）
+	 *			edate			派单时间 （结束）
+	 *			wxmkId			维修模块id
+	 *			taskRelateState 任务关联表状态
+	 *			notInTaskIds	不包括任务关联表的ids（弹出框）
+	 *			oversdate		完成时间（开始）		报验弹出
+	 *			overedate		完成时间（结束）		报验弹出
+	 *		返回：json
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/queryRWTaskListPage")
+	public @ResponseBody Map<String, Object> queryRWTaskListPage(
+			@RequestBody RWTaskForm form) throws Exception {
+		
+		try {
+			PageInfo pageInfos = rwTaskServices.queryRWTaskListPage(form);
+			return ApiMessage.builder(true, pageInfos);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ApiMessage.builder(false);
+		}
+	}
+	
+	
+}

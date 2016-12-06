@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+ 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ 		xmlns:context="http://www.springframework.org/schema/context"
+ 		xmlns:p="http://www.springframework.org/schema/p"
+ 		xmlns:aop="http://www.springframework.org/schema/aop"
+ 		xmlns:tx="http://www.springframework.org/schema/tx"
+ 		xsi:schemaLocation="http://www.springframework.org/schema/beans
+ 				http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+ 				http://www.springframework.org/schema/aop
+ 				http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+ 				http://www.springframework.org/schema/context
+ 				http://www.springframework.org/schema/context/spring-context-4.0.xsd
+ 				http://www.springframework.org/schema/tx
+ 				http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
+	
+	<!-- 
+ 		数据源配置
+ 		参数：
+ 			p:driverClass  数据库连接驱动
+ 			p:jdbcUrl  数据库连接地址
+ 			p:user   用户名
+ 			p:password 	 密码
+ 			p:minPoolSize   连接池中保持最小的连接数（默认15）
+ 			p:maxPoolSize   连接池中保持最大的连接数（默认15）
+ 			p:initialPoolSize   初始化连接数（在min和max之间）
+ 			p:maxIdleTime   最大空闲时间（0和负数则永远丢弃）
+ 			p:maxStatements	  JDBC的标准参数，用以控制数据源内加载的PreparedStatment数量（默认0）
+ 	 -->
+ 	 
+	<context:property-placeholder
+		location="classpath:jdbc.properties" />
+		
+ 	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+ 			p:driverClass="${jdbc.driver}" 
+ 			p:jdbcUrl="${jdbc.url}"
+ 			p:user="${jdbc.username}"
+ 			p:password="${jdbc.password}"
+ 			p:minPoolSize="5"
+ 			p:maxPoolSize="30"
+ 			p:initialPoolSize="15"
+ 			p:maxIdleTime="60"
+ 			p:maxStatements="0"/>
+	
+	
+	<!-- 
+ 		mybatis 配置
+ 		参数：
+ 			p:dataSource-ref 指定数据源
+ 			p:configLocation 指定mybatis配置文件
+ 	 -->
+ 	<bean id="sqlSessionFactory"
+ 			class="org.mybatis.spring.SqlSessionFactoryBean"
+ 			p:dataSource-ref="dataSource"
+ 			p:configLocation="classpath:myBatisConfig.xml"/>
+ 	
+ 	<!-- LOG4JDBC SQL日志拦截打印配置 -->
+ 	<bean id="log4jdbcInterceptor" class="net.sf.log4jdbc.DataSourceSpyInterceptor" />  
+	<bean id="dataSourceLog4jdbcAutoProxyCreator" 
+		class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">  
+		<property name="interceptorNames">  
+	       	<list>  
+	          	<value>log4jdbcInterceptor</value>          
+	       	</list>  
+	   	</property>  
+	   	<property name="beanNames">  
+	       	<list>  
+	          	<value>dataSource</value>  
+	       	</list>  
+	   	</property>  
+	</bean>  
+ 	
+	<!-- mybatis 与 spring集成   注入 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.junl.apps.mapper" />
+	</bean>
+	
+ 	<!-- 注解配置事物 -->
+ 	<bean id="transactionManager"
+ 			class="org.springframework.jdbc.datasource.DataSourceTransactionManager" 
+ 			p:dataSource-ref="dataSource"/>
+ 	<tx:annotation-driven transaction-manager="transactionManager"/>
+ 	
+</beans>

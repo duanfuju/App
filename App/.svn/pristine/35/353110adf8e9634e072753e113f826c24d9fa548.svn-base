@@ -1,0 +1,120 @@
+package com.junl.apps.controller;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.junl.apps.common.ApiMessage;
+import com.junl.apps.form.XunChaTouForm;
+import com.junl.apps.model.XunChaTouXCModel;
+import com.junl.apps.service.xunchatou.IXunChaTou;
+import com.junl.frame.core.common.page.PageInfo;
+
+@Controller
+@RequestMapping("/xunchatou")
+public class XunChaTouAction {
+	
+	@Autowired
+	private IXunChaTou xunChaTouServices;
+	
+	
+	
+	
+	/**增加
+	 * 请求地址：http://127.0.0.1:8006/Apps/fzhl/insertFzhl.do
+	 * 参数：
+	 * 		防撞护栏所有属性及防撞护栏部件关联表
+	 *		返回：json
+	 * @param form
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="insertXunCha")
+	public @ResponseBody Map<String, Object> insertFzhl(
+			@RequestBody XunChaTouXCModel form) throws Exception {
+		
+		try {
+			int res = xunChaTouServices.insertXunCha(form);
+			Map<String, Object> map=new HashMap<>();
+			map.put("state", res);
+			return ApiMessage.builder(true, map);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ApiMessage.builder(false);
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/**默认列表
+	 * 请求地址：http://127.0.0.1:8006/Apps/xunchatou/queryXunChaTouListPage.do
+	 *		参数：
+	 *			pageNo			当前页码				必填
+	 *			limit			限制查询的记录数		必填
+	 *			xunChaType		巡查类型
+	 *			sdate			巡查开始时间
+	 *			edate			巡查结束时间
+	 *			createUserId	巡查人				必填
+	 *			sort			是否排序
+	 *			sortName		排序列
+	 *			sortType 		排序类型   desc / asc
+	 *		返回：json
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/queryXunChaTouListPage")
+	public @ResponseBody Map<String, Object> queryXunChaTouListPage(
+			@RequestBody XunChaTouForm form) throws Exception {
+		
+		try {
+			PageInfo pageInfos = xunChaTouServices.queryXunChaTouListPage(form);
+			return ApiMessage.builder(true, pageInfos);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ApiMessage.builder(false);
+		}
+	}
+	
+	/**根据主键获取巡查登记
+	 * 请求地址：http://127.0.0.1:8006/Apps/xunchatou/queryByIds.do
+	 *		参数：
+	 *			ids			主键				必填
+	 *		返回：json
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/queryByIds")
+	public @ResponseBody Map<String, Object> queryByIds(
+			@RequestBody XunChaTouForm form) throws Exception {
+		
+		try {
+			Map<String, Object> map = xunChaTouServices.queryByIds(form.getIds());
+			return ApiMessage.builder(true, map);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ApiMessage.builder(false);
+		}
+	}
+}

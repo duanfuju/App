@@ -1,0 +1,335 @@
+package com.junl.apps.model;
+
+import java.sql.Timestamp;
+/**
+ * 
+* @ClassName: WXYangHuModel
+* @Description: TODO(这里用一句话描述这个类的作用)
+* @author dfj
+* @date 2016年8月25日 下午2:58:20
+*
+ */
+public class WXYangHuModel {
+	/**
+	 * 主键
+	 */
+	private String ids;
+	/**
+	 * 天气状况
+	 */
+	private String weatherState;
+	/**
+	 * 气温
+	 */
+	private String qiWen;
+	/**
+	 * 开始桩号千米位
+	 */
+	private String startZHK;
+	/**
+	 * 开始桩号米位
+	 */
+	private String startZHM;
+	/**
+	 * 结束桩号千米位
+	 */
+	private String endZHK;
+	/**
+	 * 结束桩号米位
+	 */
+	private String endZHM;
+	/**
+	 * 维修时间
+	 */
+	private String weiXiuTime;
+	/**
+	 * 养护项目
+	 */
+	private String yangHuProject;
+	/**
+	 * 损坏现状描述及原因分析
+	 */
+	private String sunHuaiMiaoShu;
+	/**
+	 * 施工机械
+	 */
+	private String shiGongJiXie;
+	/**
+	 * 维修人员
+	 */
+	private String weiXiuRenYuan;
+	/**
+	 * 现场专职安全员
+	 */
+	private String anQuanYuan;
+	/**
+	 * 现场施工负责人
+	 */
+	private String fuZeRen;
+	/**
+	 * 维修质量评价
+	 */
+	private String pingJia;
+	/**
+	 * 备注
+	 */
+	private String remark;
+	/**
+	 * 图片
+	 */
+	private String imgs;
+	/**
+	 * 任务和巡查信息关联id
+	 */
+	private String taskInfoRelate;
+	/**
+	 * 
+	 */
+	private String createUserId;
+	/**
+	 * 状态值1代表计量，2代表退回
+	 */
+	private String state;
+	/**
+	 * 路线
+	 */
+	private String luXian;
+	/**
+	 * 位置类型
+	 */
+	private String wzType;
+	/**
+	 * 位置名称
+	 */
+	private String wzName;
+	/**
+	 * 位置描述
+	 */
+	private String wzMiaoShu;
+	/**
+	 * 创建时间
+	 */
+	private String createTime;
+	/**
+	 * 单位
+	 */
+	private String danWei;
+	/**
+	 * 数量
+	 */
+	private String num;
+	/**
+	 * 路病类型
+	 */
+	private String diseaseType;
+	/**
+	 * 发现时间
+	 */
+	private Timestamp foundTime;
+	/**
+	 * 计量金额
+	 */
+	private int meteringNum;
+	/**
+	 * 计量金额
+	 */
+	private double meteringMoney;
+	/**
+	 * 损坏原因类型
+	 */
+	private String sunHuaiCauseType;
+	public String getIds() {
+		return ids;
+	}
+	public void setIds(String ids) {
+		this.ids = ids;
+	}
+	public String getWeatherState() {
+		return weatherState;
+	}
+	public void setWeatherState(String weatherState) {
+		this.weatherState = weatherState;
+	}
+	public String getQiWen() {
+		return qiWen;
+	}
+	public void setQiWen(String qiWen) {
+		this.qiWen = qiWen;
+	}
+	public String getStartZHK() {
+		return startZHK;
+	}
+	public void setStartZHK(String startZHK) {
+		this.startZHK = startZHK;
+	}
+	public String getStartZHM() {
+		return startZHM;
+	}
+	public void setStartZHM(String startZHM) {
+		this.startZHM = startZHM;
+	}
+	public String getEndZHK() {
+		return endZHK;
+	}
+	public void setEndZHK(String endZHK) {
+		this.endZHK = endZHK;
+	}
+	public String getEndZHM() {
+		return endZHM;
+	}
+	public void setEndZHM(String endZHM) {
+		this.endZHM = endZHM;
+	}
+	public String getWeiXiuTime() {
+		return weiXiuTime;
+	}
+	public void setWeiXiuTime(String weiXiuTime) {
+		this.weiXiuTime = weiXiuTime;
+	}
+	public String getYangHuProject() {
+		return yangHuProject;
+	}
+	public void setYangHuProject(String yangHuProject) {
+		this.yangHuProject = yangHuProject;
+	}
+	public String getSunHuaiMiaoShu() {
+		return sunHuaiMiaoShu;
+	}
+	public void setSunHuaiMiaoShu(String sunHuaiMiaoShu) {
+		this.sunHuaiMiaoShu = sunHuaiMiaoShu;
+	}
+	public String getShiGongJiXie() {
+		return shiGongJiXie;
+	}
+	public void setShiGongJiXie(String shiGongJiXie) {
+		this.shiGongJiXie = shiGongJiXie;
+	}
+	public String getWeiXiuRenYuan() {
+		return weiXiuRenYuan;
+	}
+	public void setWeiXiuRenYuan(String weiXiuRenYuan) {
+		this.weiXiuRenYuan = weiXiuRenYuan;
+	}
+	public String getAnQuanYuan() {
+		return anQuanYuan;
+	}
+	public void setAnQuanYuan(String anQuanYuan) {
+		this.anQuanYuan = anQuanYuan;
+	}
+	public String getFuZeRen() {
+		return fuZeRen;
+	}
+	public void setFuZeRen(String fuZeRen) {
+		this.fuZeRen = fuZeRen;
+	}
+	public String getPingJia() {
+		return pingJia;
+	}
+	public void setPingJia(String pingJia) {
+		this.pingJia = pingJia;
+	}
+	public String getRemark() {
+		return remark;
+	}
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+	public String getImgs() {
+		return imgs;
+	}
+	public void setImgs(String imgs) {
+		this.imgs = imgs;
+	}
+	public String getTaskInfoRelate() {
+		return taskInfoRelate;
+	}
+	public void setTaskInfoRelate(String taskInfoRelate) {
+		this.taskInfoRelate = taskInfoRelate;
+	}
+	public String getCreateUserId() {
+		return createUserId;
+	}
+	public void setCreateUserId(String createUserId) {
+		this.createUserId = createUserId;
+	}
+	public String getState() {
+		return state;
+	}
+	public void setState(String state) {
+		this.state = state;
+	}
+	public String getLuXian() {
+		return luXian;
+	}
+	public void setLuXian(String luXian) {
+		this.luXian = luXian;
+	}
+	public String getWzType() {
+		return wzType;
+	}
+	public void setWzType(String wzType) {
+		this.wzType = wzType;
+	}
+	public String getWzName() {
+		return wzName;
+	}
+	public void setWzName(String wzName) {
+		this.wzName = wzName;
+	}
+	public String getWzMiaoShu() {
+		return wzMiaoShu;
+	}
+	public void setWzMiaoShu(String wzMiaoShu) {
+		this.wzMiaoShu = wzMiaoShu;
+	}
+	public String getCreateTime() {
+		return createTime;
+	}
+	public void setCreateTime(String createTime) {
+		this.createTime = createTime;
+	}
+	public String getDanWei() {
+		return danWei;
+	}
+	public void setDanWei(String danWei) {
+		this.danWei = danWei;
+	}
+	public String getNum() {
+		return num;
+	}
+	public void setNum(String num) {
+		this.num = num;
+	}
+	public String getDiseaseType() {
+		return diseaseType;
+	}
+	public void setDiseaseType(String diseaseType) {
+		this.diseaseType = diseaseType;
+	}
+	public Timestamp getFoundTime() {
+		return foundTime;
+	}
+	public void setFoundTime(Timestamp foundTime) {
+		this.foundTime = foundTime;
+	}
+	public int getMeteringNum() {
+		return meteringNum;
+	}
+	public void setMeteringNum(int meteringNum) {
+		this.meteringNum = meteringNum;
+	}
+	public double getMeteringMoney() {
+		return meteringMoney;
+	}
+	public void setMeteringMoney(double meteringMoney) {
+		this.meteringMoney = meteringMoney;
+	}
+	public String getSunHuaiCauseType() {
+		return sunHuaiCauseType;
+	}
+	public void setSunHuaiCauseType(String sunHuaiCauseType) {
+		this.sunHuaiCauseType = sunHuaiCauseType;
+	}
+	
+	
+}

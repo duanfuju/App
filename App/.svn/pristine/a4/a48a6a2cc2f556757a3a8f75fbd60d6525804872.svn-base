@@ -1,0 +1,93 @@
+package com.junl.apps.service.users;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.junl.apps.mapper.UserMapper;
+import com.junl.apps.model.UserModel;
+import com.junl.apps.service.peizhi.PeizhiImpl;
+import com.junl.frame.core.common.page.PageInfo;
+import com.junl.frame.tools.ToolPbkdf2;
+
+@Service
+public class UsersImpl implements IUsers {
+	
+	@Autowired
+	private UserMapper mapper;
+	@Autowired
+	private PeizhiImpl peizhiImpl;
+
+	public List<UserModel> doLogin() throws Exception {
+		
+		Map<String, Object> params = new HashMap<String, Object>();
+		
+		PageInfo pageinfo = new PageInfo();
+		pageinfo.setLimit(5);
+		pageinfo.setPageNo(2);
+		pageinfo.setSort(true);
+		pageinfo.setSortName("stopdate");
+		pageinfo.setSortType("desc");
+		
+		params.put("page", pageinfo);
+		
+		return mapper.queryListPage(params);
+	}
+
+	/**
+	 * 根据用户名获取数据
+	 * @return
+	 */
+	public Map<String, Object> queryUserByUserName(Map<String, Object> params) throws Exception {
+		 Map<String, Object> m= new HashMap<>();
+		UserModel user=mapper.queryObject(params);
+		if (user!=null) {
+			byte[] salt=user.getSalt();
+			byte[] password=user.getPassword();
+			
+			boolean bool = false;
+			try {
+				//验证密码
+				bool = ToolPbkdf2.authenticate(params.get("password").toString(),password, salt);
+				if (bool) {
+					m.put("state", "登陆成功");
+					m.put("user", user);
+					//获取权限
+					String role=user.getGroupids();
+					String[] role_s=role.substring(0, role.length()-1).split(",");
+//					String ids="";
+//					for (int i = 0; i < role_s.length; i++) {
+//						if (i==role_s.length-1) {
+//							ids+=role_s[i];
+//						}else{
+//							ids+=role_s[i]+"\',\'";
+//						}
+//					}
+					List<Map<String, Object>> roles=peizhiImpl.queryUserRole(role_s);
+					m.put("roles", roles);
+				}else{
+					m.put("state", "密码错误");
+				}
+			} catch (NoSuchAlgorithmException e) {
+				e.printStackTrace();
+			} catch (InvalidKeySpecException e) {
+				e.printStackTrace();
+			}
+		}else{
+			m.put("state", "该用户名不存在");
+		}
+		return m;
+	}
+	
+
+	
+
+}
